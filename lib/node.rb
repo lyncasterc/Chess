@@ -1,7 +1,7 @@
 class Node
   attr_accessor :coor, :piece
-  def initialize(coor, piece)
+  def initialize(coor, piece=nil)
     @coor = coor
-    @piece = nil
+    @piece = piece
   end
 end

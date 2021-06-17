@@ -1,4 +1,4 @@
-require './node'
+require_relative './node'
 
 class Board
   attr_reader :board

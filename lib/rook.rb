@@ -12,6 +12,8 @@ class Rook < GamePiece
     y2 = new_pos[1]
     
     return false if x2 > 7 || x2 < 0 || y2 > 7 || y2 < 0
+    return false if x2 != x1 && y2 != y1 
+    true
   end
 end
 

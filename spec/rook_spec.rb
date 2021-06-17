@@ -21,6 +21,18 @@ describe Rook do
       end
     end
 
-    
+    context 'when path from pos to new_move is not linear' do
+      it 'returns false' do
+        new_move = [4,4]
+        expect(rook_move.valid_move?(new_move, board = nil)).to be false
+      end
+    end
+
+    context 'when path from pos to new_move is linear' do
+      it 'returns true' do
+        new_move = [4,3]
+        expect(rook_move.valid_move?(new_move, board = nil)).to be true
+      end
+    end
   end
 end

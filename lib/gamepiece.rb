@@ -4,4 +4,7 @@ class GamePiece
     @pos = pos
     @color = color
   end
+
+  def valid_move?(new_pos)
+  end
 end

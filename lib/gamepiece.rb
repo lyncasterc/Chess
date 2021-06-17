@@ -5,6 +5,6 @@ class GamePiece
     @color = color
   end
 
-  def valid_move?(new_pos)
+  def valid_move?(new_pos, board)
   end
 end

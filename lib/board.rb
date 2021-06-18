@@ -11,6 +11,13 @@ class Board
     @board.find {|node| node.coor == pos} 
   end
 
+  def off_board?(pos)
+    x1 = pos[0]
+    y1 = pos[1]
+    return false if x1 > 7 || x1 < 0 || y1 > 7 || y1 < 0
+    true
+  end
+
   private
   def create_board
     a = Array.new(8){|i| i}

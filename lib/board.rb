@@ -7,6 +7,10 @@ class Board
     @board = create_board
   end
 
+  def find_node(pos)
+    @board.find {|node| node.coor == pos} 
+  end
+
   private
   def create_board
     a = Array.new(8){|i| i}

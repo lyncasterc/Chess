@@ -10,7 +10,7 @@ class Rook < GamePiece
     y1 = pos[1]
     x2 = new_pos[0]
     y2 = new_pos[1]
-    new_pos_node = board.find {|node| node.coor == new_pos}
+    new_pos_node = board.find_node(new_pos)
     
     return false if x2 > 7 || x2 < 0 || y2 > 7 || y2 < 0
     return false if x2 != x1 && y2 != y1 

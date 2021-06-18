@@ -38,6 +38,11 @@ describe Rook do
       end
     end
 
+    it 'works with other linear paths' do 
+      new_move = [3,6]
+      expect(rook_move.valid_move?(new_move, chess_board)).to be true
+    end
+
     context 'when a friendly piece is on the new_pos board node' do
       let(:friendly_rook) { described_class.new([7,3], 'white') }
 
@@ -50,5 +55,19 @@ describe Rook do
 
       end
     end
+
+    context 'when a enemy piece is on the new_pos board node' do
+      let(:enemy_rook) { described_class.new([7,3], 'black') }
+
+      it 'returns true' do
+        new_pos = [7,3]
+        new_pos_node = chess_board.find_node(new_pos)
+        new_pos_node.piece = enemy_rook
+
+        expect(rook_move.valid_move?(new_pos, chess_board)).to be true 
+
+      end
+    end
   end
+
 end

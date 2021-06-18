@@ -12,7 +12,7 @@ class Rook < GamePiece
     y2 = new_pos[1]
     new_pos_node = board.find_node(new_pos)
     
-    return false if x2 > 7 || x2 < 0 || y2 > 7 || y2 < 0
+    return false if !board.off_board?(new_pos)
     return false if x2 != x1 && y2 != y1 
     return false if !new_pos_node.piece.nil? && new_pos_node.piece.color == @color
     true

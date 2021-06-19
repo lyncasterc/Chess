@@ -70,4 +70,33 @@ describe Rook do
     end
   end
 
+  describe '#get_path' do
+    subject(:rook_path) { described_class.new([3,3], 'white') }
+
+    context 'when passed a start_pos and valid end_pos' do
+      it 'returns a non-empty array' do
+        start_pos = [3,3]
+        end_pos = [7,3]
+        result = rook_path.get_path(start_pos, end_pos, chess_board)
+
+        expect(result).to_not be_empty
+      end
+      
+      it 'returns array only with nodes between but not equal to start_pos and end_pos' do
+        start_pos = [3,3]
+        end_pos = [7,3]
+        result = rook_path.get_path(start_pos, end_pos, chess_board)
+
+        expect(result.any? { |node| node.coor == start_pos || node.coor == end_pos }).to be false
+      end
+
+      it 'returns array of the expected length' do
+        start_pos = [3,3]
+        end_pos = [3,0]
+        result = rook_path.get_path(start_pos, end_pos, chess_board)
+        
+        expect(result.length).to eq(2)
+      end
+    end
+  end
 end

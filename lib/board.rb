@@ -14,8 +14,8 @@ class Board
   def off_board?(pos)
     x1 = pos[0]
     y1 = pos[1]
-    return false if x1 > 7 || x1 < 0 || y1 > 7 || y1 < 0
-    true
+    return true if x1 > 7 || x1 < 0 || y1 > 7 || y1 < 0
+    false
   end
 
   def is_linear?(start_pos, end_pos)

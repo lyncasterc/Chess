@@ -15,6 +15,7 @@ class Rook < GamePiece
     return false if !board.off_board?(new_pos)
     return false if x2 != x1 && y2 != y1 
     return false if !new_pos_node.piece.nil? && new_pos_node.piece.color == @color
+    return false if node_in_path?(@pos, new_pos, board)
     true
   end
 

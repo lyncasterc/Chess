@@ -39,12 +39,12 @@ class Board
       if y2 > y1
         until y1 >= y2 - 1
           y1 += 1
-          path.push(board.find_node([x1, y1]))
+          path.push(find_node([x1, y1]))
         end 
       elsif y2 < y1
         until y2 >= y1 - 1
           y2 += 1
-          path.push(board.find_node([x1, y2]))
+          path.push(find_node([x1, y2]))
         end
       end
 
@@ -52,12 +52,12 @@ class Board
       if x2 > x1
         until x1 >= x2 - 1
           x1 += 1
-          path.push(board.find_node([x1, y1]))
+          path.push(find_node([x1, y1]))
         end 
       elsif x2 < x1
         until x2 >= x1 - 1
           x2 += 1
-          path.push(board.find_node([x2, y1]))
+          path.push(find_node([x2, y1]))
         end
       end
     end

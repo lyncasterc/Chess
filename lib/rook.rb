@@ -11,7 +11,7 @@ class Rook < GamePiece
     x2 = new_pos[0]
     y2 = new_pos[1]
     
-    return false if !board.off_board?(new_pos)
+    return false if board.off_board?(new_pos)
     return false if x2 != x1 && y2 != y1 
     return false if friendly_piece?(new_pos, board)
     return false if piece_in_path?(@pos, new_pos, board)

@@ -17,24 +17,13 @@ describe Rook do
     end
     
     context 'when path from pos to new_pos is not linear' do
-      xit 'returns false' do
+      it 'returns false' do
         new_pos = [4,4]
+        
         expect(rook_move.valid_move?(new_pos, chess_board)).to be false
       end
     end
-
-    context 'when path from pos to new_pos is linear' do
-      xit 'returns true' do
-        new_pos = [4,3]
-        expect(rook_move.valid_move?(new_pos, chess_board)).to be true
-      end
-
-      xit 'works with other linear paths' do 
-        new_pos = [3,6]
-        expect(rook_move.valid_move?(new_pos, chess_board)).to be true
-      end
-    end
-
+  
     context 'when a friendly piece is on the new_pos board node' do
       let(:friendly_rook) { described_class.new([7,3], 'white') }
 

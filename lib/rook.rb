@@ -6,13 +6,13 @@ class Rook < GamePiece
   end
 
   def valid_move?(new_pos, board)
-    x1 = pos[0]
-    y1 = pos[1]
-    x2 = new_pos[0]
-    y2 = new_pos[1]
+    # x1 = pos[0]
+    # y1 = pos[1]
+    # x2 = new_pos[0]
+    # y2 = new_pos[1]
     
     return false if board.off_board?(new_pos)
-    return false if x2 != x1 && y2 != y1 
+    return false if !board.is_linear?(@pos, new_pos) 
     return false if friendly_piece?(new_pos, board)
     return false if piece_in_path?(@pos, new_pos, board)
     true

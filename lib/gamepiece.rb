@@ -11,7 +11,7 @@ class GamePiece
   def get_path(start_pos, end_pos, board)
   end
 
-  def node_in_path?(start_pos, end_pos, board)
+  def piece_in_path?(start_pos, end_pos, board)
     path = get_path(start_pos, end_pos, board)
 
     return false if path.length < 1

@@ -19,7 +19,7 @@ describe Rook do
     context 'when path from pos to new_pos is not linear' do
       it 'returns false' do
         new_pos = [4,4]
-        
+
         expect(rook_move.valid_move?(new_pos, chess_board)).to be false
       end
     end
@@ -27,7 +27,7 @@ describe Rook do
     context 'when a friendly piece is on the new_pos board node' do
       let(:friendly_rook) { described_class.new([7,3], 'white') }
 
-      xit 'returns false' do
+      it 'returns false' do
         new_pos = [7,3]
         new_pos_node = chess_board.find_node(new_pos)
         new_pos_node.piece = friendly_rook
@@ -39,7 +39,7 @@ describe Rook do
     context 'when a enemy piece is on the new_pos board node' do
       let(:enemy_rook) { described_class.new([7,3], 'black') }
 
-      xit 'returns true' do
+      it 'returns true' do
         new_pos = [7,3]
         new_pos_node = chess_board.find_node(new_pos)
         new_pos_node.piece = enemy_rook
@@ -48,7 +48,7 @@ describe Rook do
       end
     end
 
-    context 'when piece is between pos and new_pos path ' do
+    context 'when a piece is between pos and new_pos path ' do
       let(:rook) { described_class.new([5,3]) }
 
       xit 'returns false' do

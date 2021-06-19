@@ -18,4 +18,11 @@ class GamePiece
     return false if path.all? {|node| node.piece.nil?}
     true
   end
+
+  def friendly_piece?(new_pos, board)
+    new_pos_node = board.find_node(new_pos)
+    return true if !new_pos_node.piece.nil? && new_pos_node.piece.color == @color
+
+    false
+  end
 end

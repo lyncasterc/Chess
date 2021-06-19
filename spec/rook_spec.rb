@@ -51,7 +51,7 @@ describe Rook do
     context 'when a piece is between pos and new_pos path ' do
       let(:rook) { described_class.new([5,3]) }
 
-      xit 'returns false' do
+      it 'returns false' do
         new_pos = [7,3]
         path_node = chess_board.find_node([5,3])
         path_node.piece = rook
@@ -61,54 +61,25 @@ describe Rook do
     end
 
     context 'when path between pos and valid new_pos is clear' do
-      xit 'returns true' do
+      it 'returns true' do
         new_pos = [0,3]
 
         expect(rook_move.valid_move?(new_pos, chess_board)).to be true
       end
     end
+
     context 'when new_pos passes all conditions' do
-      xit 'returns true' do
+      it 'returns true' do
         new_pos = [2,3]
 
         expect(rook_move.valid_move?(new_pos, chess_board)).to be true
       end
 
-      xit 'works with other valid new_pos' do
+      it 'works with other valid new_pos' do
         new_pos = [3,1]
 
         expect(rook_move.valid_move?(new_pos, chess_board)).to be true
       end 
-    end
-  end
-
-  describe '#get_path' do
-    subject(:rook_path) { described_class.new([3,3], 'white') }
-
-    context 'when passed a start_pos and valid end_pos' do
-      xit 'returns a non-empty array' do
-        start_pos = [3,3]
-        end_pos = [7,3]
-        result = rook_path.get_path(start_pos, end_pos, chess_board)
-
-        expect(result).to_not be_empty
-      end
-      
-      xit 'returns array only with nodes between but not equal to start_pos and end_pos' do
-        start_pos = [3,3]
-        end_pos = [7,3]
-        result = rook_path.get_path(start_pos, end_pos, chess_board)
-
-        expect(result.any? { |node| node.coor == start_pos || node.coor == end_pos }).to be false
-      end
-
-      xit 'returns array of the expected length' do
-        start_pos = [3,3]
-        end_pos = [3,0]
-        result = rook_path.get_path(start_pos, end_pos, chess_board)
-
-        expect(result.length).to eq(2)
-      end
     end
   end
 end

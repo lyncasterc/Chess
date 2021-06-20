@@ -33,7 +33,12 @@ class Board
     y1 = start_pos[1]
     x2 = end_pos[0]
     y2 = end_pos[1]
+
+    begin
     slope = (y2 - y1) / (x2 - x1)
+    rescue
+      slope = 0
+    end
 
     return true if slope.abs() == 1 
     false

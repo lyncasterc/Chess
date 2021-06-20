@@ -27,7 +27,7 @@ class Board
     return false if x2 != x1 && y2 != y1 
     true
   end
-  
+
   def is_diagonal?(start_pos, end_pos)
     x1 = start_pos[0]
     y1 = start_pos[1]
@@ -75,6 +75,44 @@ class Board
     path
   end
 
+  def get_diagonal_path(start_pos, end_pos)
+    path = []
+    x1 = start_pos[0]
+    y1 = start_pos[1]
+    x2 = end_pos[0]
+    y2 = end_pos[1]
+
+    if x2 > x1 && y2 > y1
+      until x1 >= x2 - 1 do
+        x1 += 1
+        y1 += 1
+        path.push(find_node([x1, y1]))
+      end
+
+    elsif x2 < x1 && y2 < y1
+      until x2 >= x1 - 1 do
+        x2 += 1
+        y2 += 1
+        path.push(find_node([x2,y2]))
+      end
+    
+    elsif x2 < x1 && y2 > y1 
+      until y1 >= y2 - 1 do
+        y1 += 1
+        x1 -= 1
+        path.push(find_node([x1, y1]))
+      end
+
+    elsif x2 > x1 && y2 < y1
+      until y2 >= y1 - 1 do
+        y2 += 1
+        x2 -= 1
+        path.push(find_node([x2,y2]))
+      end
+    end
+    path
+  end
+
   private
   def create_board
     a = Array.new(8){|i| i}
@@ -90,4 +128,5 @@ class Board
 end
 
 a= Board.new
-print a.get_linear_path([3,3], [3,7])
+print a.get_diagonal_path([3,3], [6,0])
+

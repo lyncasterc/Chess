@@ -127,6 +127,4 @@ class Board
   end
 end
 
-a= Board.new
-print a.get_diagonal_path([3,3], [6,0])
 

@@ -27,6 +27,17 @@ class Board
     return false if x2 != x1 && y2 != y1 
     true
   end
+  
+  def is_diagonal?(start_pos, end_pos)
+    x1 = start_pos[0]
+    y1 = start_pos[1]
+    x2 = end_pos[0]
+    y2 = end_pos[1]
+    slope = (y2 - y1) / (x2 - x1)
+
+    return true if slope.abs() == 1 
+    false
+  end
 
   def get_linear_path(start_pos, end_pos)
     path = []

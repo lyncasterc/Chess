@@ -68,7 +68,6 @@ describe Board do
       end
     end
   end
-
   describe '#get_linear_path' do
     subject(:linear_board) { described_class.new }
 
@@ -95,6 +94,38 @@ describe Board do
         result = linear_board.get_linear_path(start_pos, end_pos)
 
         expect(result.length).to eq(2)
+      end
+    end
+  end
+  describe '#is_diagonal?' do
+    subject(:diagonal_board) { described_class.new }
+
+    context 'when line formed by end and start positions is diagonal' do
+      it 'returns true' do
+        start_pos = [3,3]
+        end_pos = [5,5]
+
+        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be true
+      end
+      it 'works with other diagonal positions' do
+        start_pos = [6,1]
+        end_pos = [2,4]
+
+        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be true
+      end
+    end
+    context 'when line formed by end and start positions is not diagonal' do
+      it 'returns false' do
+        start_pos = [3,3]
+        end_pos = [4,3]
+
+        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be false
+      end
+      it 'works with other diagonal positions' do
+        start_pos = [6,1]
+        end_pos = [3,1]
+
+        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be false
       end
     end
   end

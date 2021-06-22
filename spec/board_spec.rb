@@ -36,7 +36,7 @@ describe Board do
   describe '#is_linear' do
     subject(:linear_board) { described_class.new }
 
-    context 'when line formed by end and start positions is linear' do
+    context 'when line formed by end and start positions is horizontal or vertical' do
       it 'returns true' do
         start_pos = [3,3]
         end_pos = [3,6]
@@ -44,7 +44,7 @@ describe Board do
         expect(linear_board.is_linear?(start_pos, end_pos)).to be true
       end
 
-      it 'works with other linear positions' do
+      it 'works with other horizontal or vertical paths' do
         start_pos = [3,3]
         end_pos = [7,3]
 
@@ -52,7 +52,7 @@ describe Board do
       end
     end
 
-    context 'when line formed by end and start positions is not linear' do
+    context 'when line formed by end and start positions is not horizontal or vertical' do
       it 'returns false' do
         start_pos = [3,3]
         end_pos = [4,2]
@@ -60,7 +60,7 @@ describe Board do
         expect(linear_board.is_linear?(start_pos, end_pos)).to be false
       end
 
-      it 'works with other linear positions' do
+      it 'works with other non-horizontal or non-vertical paths' do
         start_pos = [3,3]
         end_pos = [0,6]
 
@@ -71,7 +71,7 @@ describe Board do
   describe '#get_linear_path' do
     subject(:linear_board) { described_class.new }
 
-    context 'when passed two positions that are linear' do
+    context 'when passed two positions that are horizontal or vertical' do
       it 'returns a non-empty array' do
         start_pos = [3,3]
         end_pos = [7,3]

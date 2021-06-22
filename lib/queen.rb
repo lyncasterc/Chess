@@ -1,4 +1,7 @@
 require_relative './gamepiece'
+require_relative './board'
+
+
 
 class Queen < GamePiece
   def initialize(pos = nil, color = nil)
@@ -13,3 +16,5 @@ class Queen < GamePiece
     true
   end
 end
+
+

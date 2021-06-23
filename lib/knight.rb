@@ -1,0 +1,25 @@
+require_relative './gamepiece'
+
+class Knight < GamePiece
+  def initialize(pos = nil, color = nil)
+    super(pos, color)
+  end
+
+  def valid_move?(new_pos, board)
+    x1 = @pos[0]
+    y1 = @pos[1]
+    x2 = new_pos[0]
+    y2 = new_pos[1]
+
+    return false if board.off_board?(new_pos)
+    return false if friendly_piece?(new_pos, board)
+
+    if (x2 - x1).abs() == 2 && (y2 - y1).abs() == 1
+      return true
+    elsif (y2 - y1).abs() == 2 && (x2 - x1).abs() == 1
+      return true
+    end
+
+    false
+  end
+end

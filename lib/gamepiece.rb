@@ -8,6 +8,9 @@ class GamePiece
   def valid_move?(new_pos, board)
   end
 
+  def on_start_pos(new_pos)
+  end
+
   def piece_in_path?(start_pos, end_pos, board)
     if board.is_linear?(start_pos, end_pos)
       path = board.get_linear_path(start_pos, end_pos)

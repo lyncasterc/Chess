@@ -47,8 +47,4 @@ class Pawn < GamePiece
     true
   end
 end
-# think i can with abs of 1 bc i already checked for backwards?
 
-b = Board.new
-bp = Pawn.new([3,5],'black')
-print bp.valid_move?([3,3], b)

@@ -20,9 +20,9 @@ class Pawn < GamePiece
     #backward moves
     return false if y2 < y1 && @color == 'white' 
     return false if y2 > y1 && @color == 'black'
-    # y2 can not change by more than 2
+    # y's can not change by more than 2
     return false if (y2 - y1).abs() > 2 
-    # x2 can not change by more than 2
+    # x's can not change by more than 2
     return false if (x2 - x1).abs() > 1
 
     # can not move 2 if pawn has moved already

@@ -39,13 +39,13 @@ describe Pawn do
 
     context 'when new_pos is moving pawn horizontally by more than one spaces' do
       it 'returns false' do 
-        new_pos = [3,3]
+        new_pos = [5,6]
 
         expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be false
       end
 
       it 'works with white pawn' do 
-        new_pos = [3,4]
+        new_pos = [0,1]
 
         expect(white_pawn_move.valid_move?(new_pos, chess_board)).to be false
       end
@@ -93,7 +93,7 @@ describe Pawn do
         end
       end
 
-      context 'when pawn has not moved and there is no piece in the way' do
+      context 'when pawn has not moved yet and there is no piece in the way' do
         it 'returns true' do
           new_pos = [3,4]
 
@@ -145,15 +145,38 @@ describe Pawn do
               expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be true
             end
 
-            it 'works with white pawnd' do 
+            it 'works with white pawns' do 
               new_pos = [4,2]
 
               expect(white_pawn_move.valid_move?(new_pos, chess_board)).to be true
             end
           end
         end
+
+        context 'when there is an enemy piece on the new_pos space' do
+          let(:enemy_piece) { GamePiece.new }
+          let(:enemy_piece2) { GamePiece.new }
+          before do
+            black_new_pos_node = chess_board.find_node([4,5])
+            black_new_pos_node.piece = enemy_piece
+
+            white_new_pos_node = chess_board.find_node([2,2])
+            white_new_pos_node.piece = enemy_piece2
+          end
+
+          it 'returns true' do
+            new_pos = [4,5]
+
+            expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be true
+          end
+
+          it 'works with white pawns' do
+            new_pos = [2,2]
+
+            expect(white_pawn_move.valid_move?(new_pos, chess_board)).to be true
+          end
+        end
       end
     end
   end
-
 end

@@ -36,7 +36,22 @@ describe Pawn do
 
         expect(white_pawn_move.valid_move?(new_pos, chess_board)).to be false
       end
+    end
 
+
+    context 'when new_pos is moving pawn horizontally by more than one spaces' do
+      it 'returns false' do 
+        new_pos = [3,3]
+
+        expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be false
+      end
+
+      it 'works with white pawn' do 
+        new_pos = [3,4]
+
+        expect(white_pawn_move.valid_move?(new_pos, chess_board)).to be false
+      end
     end
   end
+
 end

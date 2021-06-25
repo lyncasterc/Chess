@@ -6,7 +6,7 @@ class Pawn < GamePiece
 
   def initialize(pos = nil, color = nil)
     super(pos, color)
-    @t_e_p = false # can pawn take en passant
+    @t_e_p = false # can pawn take en passant?
   end
 
   def valid_move?(new_pos, board)
@@ -24,17 +24,20 @@ class Pawn < GamePiece
     return false if (y2 - y1).abs() > 2 
     # x2 can not change by more than 2
     return false if (x2 - x1).abs() > 1
-    return false if (y2 - y1).abs() == 2 && !on_start_pos?
+
+    # can not move 2 if pawn has moved already
+    # can not move 2 if piece is the way 
+    if(y2 - y1).abs() == 2
+      return false if !on_start_pos? || piece_in_path?(@pos, new_pos, board)
+    end
     
+    #can not move horizontally if not diagonal
+    #can not move diagonally by one if there is no enemy piece and can not take en passant
     if (x2 - x1).abs() == 1
       return false if !board.is_diagonal?(@pos, new_pos)
-      return false 
+      return false if !enemy_piece?(new_pos, board) && !@t_e_p
     end
 
-
-
-
-  
     true
   end
 
@@ -46,5 +49,6 @@ class Pawn < GamePiece
 end
 # think i can with abs of 1 bc i already checked for backwards?
 
-# b = Board.new
-# bp = Pawn.new([3,6],'black')
+b = Board.new
+bp = Pawn.new([3,5],'black')
+print bp.valid_move?([3,3], b)

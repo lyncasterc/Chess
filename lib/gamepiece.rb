@@ -8,7 +8,7 @@ class GamePiece
   def valid_move?(new_pos, board)
   end
 
-  def on_start_pos(new_pos)
+  def on_start_pos
   end
 
   def piece_in_path?(start_pos, end_pos, board)
@@ -32,7 +32,7 @@ class GamePiece
 
   def enemy_piece?(new_pos, board)
     new_pos_node = board.find_node(new_pos)
-    return true !new_pos_node.piece.nil? && new_pos_node.piece.color != @color
+    return true if !new_pos_node.piece.nil? && new_pos_node.piece.color != @color
     
     false
   end

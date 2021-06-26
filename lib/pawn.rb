@@ -1,5 +1,4 @@
 require_relative './gamepiece'
-require_relative './board'
 
 class Pawn < GamePiece
   attr_accessor :t_e_p

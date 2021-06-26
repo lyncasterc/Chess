@@ -36,4 +36,10 @@ class GamePiece
     
     false
   end
+
+  def possible_moves(board)
+    board.board.filter { |node| valid_move?(node.coor, board) && node.coor != @pos }
+  end
+
 end
+

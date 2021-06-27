@@ -8,7 +8,7 @@ class GamePiece
   def valid_move?(new_pos, board)
   end
 
-  def on_start_pos
+  def has_moved?
   end
 
   def piece_in_path?(start_pos, end_pos, board)

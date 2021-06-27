@@ -1,5 +1,5 @@
 class GamePiece
-  attr_accessor :pos, :color
+  attr_accessor :pos, :color, :has_moved
   def initialize(pos = nil, color = nil, has_moved = false)
     @pos = pos
     @color = color

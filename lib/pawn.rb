@@ -3,8 +3,8 @@ require_relative './gamepiece'
 class Pawn < GamePiece
   attr_accessor :t_e_p
 
-  def initialize(pos = nil, color = nil)
-    super(pos, color)
+  def initialize(pos = nil, color = nil, has_moved = false)
+    super(pos, color, has_moved)
     @t_e_p = false # can pawn take en passant?
   end
 

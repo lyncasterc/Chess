@@ -2,8 +2,8 @@ require_relative './gamepiece'
 require_relative './board'
 
 class King < GamePiece
-  def initialize(pos = nil, color = nil)
-    super(pos, color)
+  def initialize(pos = nil, color = nil, has_moved = false)
+    super(pos, color, has_moved)
   end
 
   def valid_move?(new_pos, board)

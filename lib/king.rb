@@ -33,6 +33,33 @@ class King < GamePiece
     false
   end
 
+  def can_castle?(board, castle_pos)
+    x1 = @pos[0]
+    x2 = castle_pos[0]
+    castle_rook = nil
+    castle_path = board.get_linear_path(@pos, castle_pos)
+
+    if @color == 'black'
+      black_piece = board.find_node([7,7]).piece if x2 > x1 
+      black_piece = board.find_node([0,7]).piece if x2 < x1
+
+      castle_rook = black_piece if black_piece.class == Rook
+    else
+      white_piece = board.find_node([7,0]).piece if x2 > x1 
+      white_piece = board.find_node([0,0]).piece if x2 < x1
+
+      castle_rook = white_piece if white_piece.class == Rook
+    end
+    
+    return false if @has_moved || castle_rook.has_moved
+    return false if in_check?(board) || in_check?(board, castle_pos)
+    castle_path.each do |node|
+      return false if in_check?(board, node.coor)
+    end
+    return false if piece_in_path?(board, @pos, castle_pos)
+    
+    true
+  end
   
 end
 

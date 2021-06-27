@@ -27,7 +27,7 @@ class Pawn < GamePiece
     # can not move 2 if pawn has moved already
     # can not move 2 if piece is the way 
     if(y2 - y1).abs() == 2
-      return false if !has_moved? || piece_in_path?(@pos, new_pos, board)
+      return false if !@has_moved || piece_in_path?(@pos, new_pos, board)
     end
     
     #can not move horizontally if not diagonal
@@ -40,10 +40,5 @@ class Pawn < GamePiece
     true
   end
 
-  def has_moved?
-    return false if @color == 'white' && @pos[1] != 1
-    return false if @color == 'black' && @pos[1] != 6
-    true
-  end
 end
 

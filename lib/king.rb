@@ -21,9 +21,18 @@ class King < GamePiece
     true
   end
 
+  def in_check?(board)
+    enemy_pieces = board.board.filter { |node| enemy_piece?(node.coor, board)  }
+    
+    possible_enemy_moves = enemy_pieces.collect { |node| node.piece.possible_moves(board) }
 
+    possible_enemy_moves.each do |arr|
+      return true if arr.any? { |node| node.coor == @pos }
+    end
+    
+    false
+  end
 end
 
-b = Board.new
-k = King.new([3,3],'black')
+
 

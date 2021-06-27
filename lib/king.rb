@@ -33,7 +33,7 @@ class King < GamePiece
     false
   end
 
-  def can_castle?(board)
+  
 end
 
 

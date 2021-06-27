@@ -1,14 +1,12 @@
 class GamePiece
   attr_accessor :pos, :color
-  def initialize(pos = nil, color = nil)
+  def initialize(pos = nil, color = nil, has_moved = false)
     @pos = pos
     @color = color
+    @has_moved = has_moved
   end
 
   def valid_move?(new_pos, board)
-  end
-
-  def has_moved?
   end
 
   def piece_in_path?(start_pos, end_pos, board)

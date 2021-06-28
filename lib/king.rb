@@ -1,4 +1,5 @@
 require_relative './gamepiece'
+require_relative './rook'
 require_relative './board'
 
 class King < GamePiece
@@ -14,9 +15,10 @@ class King < GamePiece
 
     return false if board.off_board?(new_pos)
     return false if friendly_piece?(new_pos, board)
+    return false if in_check?(board, new_pos)
     return false if (y2 - y1).abs() > 1
-    return false if (x2 - x1).abs() > 1 #&& !can_castle?
-    
+    return false if (x2 - x1).abs() > 2 
+    return false if (x2 - x1).abs() == 2 && !can_castle?(board, new_pos)
   
     true
   end
@@ -51,17 +53,39 @@ class King < GamePiece
       castle_rook = white_piece if white_piece.class == Rook
     end
     
+    # print board.board
+    
+
     return false if @has_moved || castle_rook.has_moved
     return false if in_check?(board) || in_check?(board, castle_pos)
     castle_path.each do |node|
       return false if in_check?(board, node.coor)
     end
-    return false if piece_in_path?(board, @pos, castle_pos)
-    
+    return false if piece_in_path?(@pos, castle_pos, board)
+
     true
   end
   
 end
 
+# b = Board.new
+# bk = King.new([4,7],'black')
 
+# black_rook_1 = Rook.new([7,7], 'black') 
+# black_rook_2 = Rook.new([0,7], 'black') 
+# white_rook_1 = Rook.new([7,0], 'white') 
+# white_rook_2 = Rook.new([0,0], 'white')
 
+# b.board.each do |node|
+#   if node.coor == [0,0]
+#     node.piece = white_rook_2
+#   elsif node.coor == [7,0]
+#     node.piece = white_rook_1
+#   elsif node.coor == [0,7]
+#     node.piece = black_rook_2
+#   elsif node.coor == [7,7]
+#     node.piece = black_rook_1
+#   end
+# end
+
+# print bk.can_castle?(b, [6,7])

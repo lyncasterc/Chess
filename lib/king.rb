@@ -51,10 +51,7 @@ class King < GamePiece
       white_piece = board.find_node([0,0]).piece if x2 < x1
 
       castle_rook = white_piece if white_piece.class == Rook
-    end
-    
-    # print board.board
-    
+    end  
 
     return false if @has_moved || castle_rook.has_moved
     return false if in_check?(board) || in_check?(board, castle_pos)

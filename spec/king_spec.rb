@@ -84,23 +84,79 @@ describe King do
         elsif node.coor == [7,7]
           node.piece = black_rook_1
         end
-
       end
     end
     
-    context 'return false if castling rook has moved' do
 
+    context 'when player attempts to short castle' do
+      context 'if the castling rook has moved in game' do
+
+        before do
+          black_rook_1.has_moved = true 
+          white_rook_1.has_moved = true 
+        end
+  
+        it 'returns false ' do
+          castle_pos = [6,7]
+  
+          expect(black_king_castle.can_castle?(chess_board, castle_pos)).to be false
+        end
+  
+        it 'works with white kings' do 
+          castle_pos = [6,0]
+  
+          expect(white_king_castle.can_castle?(chess_board, castle_pos)).to be false
+        end
+      end
+    end
+
+    context 'when player attempts to long castle' do
+      context 'if the casting rook has moved' do
+
+        before do
+          black_rook_2.has_moved = true
+          white_rook_2.has_moved = true
+        end
+
+        it 'returns false' do
+          castle_pos = [2,7]
+
+          expect(black_king_castle.can_castle?(chess_board, castle_pos)).to be false
+        end
+
+        it 'works with white kings' do
+          castle_pos = [2,0]
+
+          expect(white_king_castle.can_castle?(chess_board, castle_pos)).to be false
+        end
+      end
+    end
+
+    context 'if the player attempts to castle while in check' do
       before do
-        black_rook_1.has_moved = true 
+        allow(black_king_castle).to receive(:in_check?).and_return(true)
       end
 
-      it 'returns false ' do
-        castle_pos = [6,7]
+      it 'returns false' do
+        castle_pos = [2,7]
 
         expect(black_king_castle.can_castle?(chess_board, castle_pos)).to be false
       end
-
     end
 
+    context 'if player attempts to castle over a space being attacked' do
+      let(:enemy_piece) { Rook.new([3,5]) }
+
+      before do
+        enemy_node = chess_board.find_node([3,5])
+        enemy_node.piece = enemy_piece
+      end
+
+      it 'returns false' do
+        castle_pos = [2,7]
+
+        expect(black_king_castle.can_castle?(chess_board, castle_pos)).to be false
+      end
+    end
   end
 end

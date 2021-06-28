@@ -56,6 +56,11 @@ describe Pawn do
         subject(:moved_black_pawn) { described_class.new([3,5], 'black') }
         subject(:moved_white_pawn) { described_class.new([3,2], 'black') }
 
+        before do
+          moved_white_pawn.has_moved = true
+          moved_black_pawn.has_moved = true
+        end
+
         it 'returns false' do 
           new_pos = [3,3]
 

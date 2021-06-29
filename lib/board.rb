@@ -123,8 +123,8 @@ class Board
     a = Array.new(8){|i| i}
     board = []
 
-    a.each do |x|
-      a.each do |y|
+    a.each do |y|
+      a.each do |x|
         board.push(Node.new(coor = [x,y]))
       end
     end
@@ -133,3 +133,6 @@ class Board
 end
 
 
+b = Board.new
+
+print b.board.length

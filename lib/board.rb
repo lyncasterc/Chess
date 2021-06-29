@@ -131,8 +131,3 @@ class Board
     return board
   end
 end
-
-
-b = Board.new
-
-print b.board.length

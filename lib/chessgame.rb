@@ -20,13 +20,25 @@ class ChessGame
   def display
     gray_space = '|#'
     white_space = '|_'
-    
-    
-    
-
 
     @chess_board.board.reverse_each do |node|
-      
+      if !node.piece.nil?
+        print '|' + node.piece.unicode
+      elsif node.coor[1] % 2 == 0 
+        if node.coor[0] % 2 == 0
+          print gray_space
+        else
+          print white_space
+        end
+      elsif node.coor[1] % 2 != 0
+        if node.coor[0] % 2 != 0
+          print gray_space
+        else
+          print white_space
+        end  
+      end
+
+      puts "|" if node.coor[0] == 0
     end
   end
 
@@ -78,19 +90,19 @@ class ChessGame
   
 end
 
-puts '♙'
-puts   '   _______________
-8 |_|#|_|#|_|#|_|#|
-7 |#|_|#|_|#|_|#|_|
-6 |_|#|_|#|_|#|_|#|
-5 |#|_|#|_|#|_|#|_|
-4 |_|#|_|#|_|#|_|#|
-3 |#|_|#|_|#|_|#|_|
-2 |_|#|_|#|_|#|_|#|
-1 |#|_|#|_|#|_|#|_|
-   a b c d e f g h'
+# puts '♙'
+# puts   '   _______________
+# 8 |_|#|_|#|_|#|_|#|
+# 7 |#|_|#|_|#|_|#|_|
+# 6 |_|#|_|#|_|#|_|#|
+# 5 |#|_|#|_|#|_|#|_|
+# 4 |_|#|_|#|_|#|_|#|
+# 3 |#|_|#|_|#|_|#|_|
+# 2 |_|#|_|#|_|#|_|#|
+# 1 |#|_|#|_|#|_|#|_|
+#    a b c d e f g h'
 
-r = Rook.new([3,3],'white')
-print r.unicode
+c = ChessGame.new
+c.display
 
 

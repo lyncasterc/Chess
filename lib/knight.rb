@@ -1,8 +1,10 @@
 require_relative './gamepiece'
 
 class Knight < GamePiece
+  attr_reader :unicode
   def initialize(pos = nil, color = nil)
     super(pos, color)
+    @unicode = set_unicode
   end
 
   def valid_move?(new_pos, board)
@@ -21,5 +23,9 @@ class Knight < GamePiece
     end
 
     false
+  end
+  private
+  def set_unicode
+    @color == 'white' ? @unicode = '♘' : @unicode = '♞'
   end
 end

@@ -2,10 +2,12 @@ require_relative './gamepiece'
 
 class Pawn < GamePiece
   attr_accessor :t_e_p
+  attr_reader :unicode
 
   def initialize(pos = nil, color = nil, has_moved = false)
     super(pos, color, has_moved)
     @t_e_p = false # can pawn take en passant?
+    @unicode = set_unicode
   end
 
   def valid_move?(new_pos, board)
@@ -39,6 +41,9 @@ class Pawn < GamePiece
 
     true
   end
-
+  private
+  def set_unicode
+    @color == 'white' ? @unicode = '♗' : @unicode = '♝'
+  end
 end
 

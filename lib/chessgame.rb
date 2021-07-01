@@ -10,20 +10,34 @@ require_relative './board'
 require_relative './node'
 
 class ChessGame
-  attr_reader :chess_board, :game_state
+  attr_accessor :chess_board, :game_state
   @@BOARD_RANK = ('a'..'h').to_a
   @@BOARD_FILE = ('1'..'8').to_a
 
   def initialize
-    @chess_board = Board.new
+    @chess_board = nil
     @game_state = {
-      board: @chess_board,
       moves: 0,
       current_turn: 'player 1'
     }
   end
 
   def play_game
+    puts "CHESS"
+    puts "Enter 1 to start a new game or 2 to load a saved game"
+
+    input = gets.chomp.to_i
+    unless (1..2).include?(input)
+      puts "Oops!"
+      puts "Enter 1 to start a new game or 2 to load a saved game"
+      input = gets.chomp.to_i
+    end
+
+    set_board if input == 1
+    load_game if input == 2
+  
+
+
 
   end
 
@@ -31,31 +45,33 @@ class ChessGame
     gray_space = '|#'
     white_space = '|_'
 
-    7.step(0,-1) do |y|
-      print "#{y + 1} "
-      8.times do |x|
-        node = chess_board.find_node([x,y])
-
-        if !node.piece.nil?
-          print '|' + node.piece.unicode
-        elsif node.coor[1] % 2 == 0 
-          if node.coor[0] % 2 == 0
-            print gray_space
-          else
-            print white_space
+    if !@chess_board.nil?
+      7.step(0,-1) do |y|
+        print "#{y + 1} "
+        8.times do |x|
+          node = chess_board.find_node([x,y])
+  
+          if !node.piece.nil?
+            print '|' + node.piece.unicode
+          elsif node.coor[1] % 2 == 0 
+            if node.coor[0] % 2 == 0
+              print gray_space
+            else
+              print white_space
+            end
+          elsif node.coor[1] % 2 != 0
+            if node.coor[0] % 2 != 0
+              print gray_space
+            else
+              print white_space
+            end  
           end
-        elsif node.coor[1] % 2 != 0
-          if node.coor[0] % 2 != 0
-            print gray_space
-          else
-            print white_space
-          end  
+  
         end
-
+        puts "|"
       end
-      puts "|"
+      puts '   a b c d e f g h'
     end
-    puts '   a b c d e f g h'
   end
 
   def move(piece_pos, new_pos)
@@ -65,7 +81,7 @@ class ChessGame
 
   end
 
-  private
+  # private
   def convert_coor(chess_coor)
     coor = []
     chess_coor = chess_coor.split('')
@@ -76,6 +92,7 @@ class ChessGame
   end
   
   def set_board
+    @chess_board = Board.new
     @chess_board.board.each do |node|
 
       if node.coor == [0,0]
@@ -122,22 +139,37 @@ class ChessGame
   def save_game
     require "yaml"
 
-    File.open("chessgame_save.yaml", "w") do |file|
+    File.open("lib/chessgame_save.yaml", "w") do |file|
       file.write YAML::dump(@game_state)
+      file.write YAML::dump(@chess_board)
     end
   end
 
   def load_game
     require "yaml"
-
-    File.open("chessgame_save.yaml", "r") do |file|
-      @game_state = YAML::load(file.read)
-    end
+    f = File.open("lib/chessgame_save.yaml")
+    objects = YAML::load_stream(f)
+    f.close
+    
+    @game_state = objects[0]
+    @chess_board = objects[1]
   end
-  
 end
 
 c = ChessGame.new
-c.display
+c.set_board
+# c.display
+# c.load_game
+# c.display
+
+# node = c.chess_board.find_node([3,3])
+# node.piece = Rook.new(node.coor, 'black')
+# c.display
+# c.save_game
+
+
+
+
+
 
 

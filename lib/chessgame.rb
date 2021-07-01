@@ -11,6 +11,8 @@ require_relative './node'
 
 class ChessGame
   attr_reader :chess_board
+  @@board_rank = ('a'..'h').to_a
+  @@board_file = ('1'..'8').to_a
 
   def initialize
     @chess_board = Board.new
@@ -46,6 +48,19 @@ class ChessGame
       puts "|"
     end
     puts '   a b c d e f g h'
+  end
+
+  # def move(start, end)
+
+  # end
+
+  def convert_coor(chess_coor)
+    coor = []
+    chess_coor = chess_coor.split('')
+    coor.push(@@board_rank.find_index(chess_coor[0]))
+    coor.push(@@board_file.find_index(chess_coor[1]))
+
+    coor
   end
 
   private
@@ -96,20 +111,7 @@ class ChessGame
   
 end
 
-# puts '♙'
-# puts   '   _______________
-# 8 |_|#|_|#|_|#|_|#|
-# 7 |#|_|#|_|#|_|#|_|
-# 6 |_|#|_|#|_|#|_|#|
-# 5 |#|_|#|_|#|_|#|_|
-# 4 |_|#|_|#|_|#|_|#|
-# 3 |#|_|#|_|#|_|#|_|
-# 2 |_|#|_|#|_|#|_|#|
-# 1 |#|_|#|_|#|_|#|_|
-#    a b c d e f g h'
-
 c = ChessGame.new
 c.display
-# print c.chess_board.board
 
 

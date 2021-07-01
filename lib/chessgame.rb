@@ -127,6 +127,13 @@ class ChessGame
     end
   end
 
+  def load_game
+    require "yaml"
+
+    File.open("chessgame_save.yaml", "r") do |file|
+      @game_state = YAML::load(file.read)
+    end
+  end
   
 end
 

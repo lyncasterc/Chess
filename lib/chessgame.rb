@@ -21,25 +21,31 @@ class ChessGame
     gray_space = '|#'
     white_space = '|_'
 
-    @chess_board.board.reverse_each do |node|
-      if !node.piece.nil?
-        print '|' + node.piece.unicode
-      elsif node.coor[1] % 2 == 0 
-        if node.coor[0] % 2 == 0
-          print gray_space
-        else
-          print white_space
-        end
-      elsif node.coor[1] % 2 != 0
-        if node.coor[0] % 2 != 0
-          print gray_space
-        else
-          print white_space
-        end  
-      end
+    7.step(0,-1) do |y|
+      print "#{y + 1} "
+      8.times do |x|
+        node = chess_board.find_node([x,y])
 
-      puts "|" if node.coor[0] == 0
+        if !node.piece.nil?
+          print '|' + node.piece.unicode
+        elsif node.coor[1] % 2 == 0 
+          if node.coor[0] % 2 == 0
+            print gray_space
+          else
+            print white_space
+          end
+        elsif node.coor[1] % 2 != 0
+          if node.coor[0] % 2 != 0
+            print gray_space
+          else
+            print white_space
+          end  
+        end
+
+      end
+      puts "|"
     end
+    puts '   a b c d e f g h'
   end
 
   private
@@ -104,5 +110,6 @@ end
 
 c = ChessGame.new
 c.display
+# print c.chess_board.board
 
 

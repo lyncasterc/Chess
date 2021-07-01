@@ -10,13 +10,21 @@ require_relative './board'
 require_relative './node'
 
 class ChessGame
-  attr_reader :chess_board
-  @@board_rank = ('a'..'h').to_a
-  @@board_file = ('1'..'8').to_a
+  attr_reader :chess_board, :game_state
+  @@BOARD_RANK = ('a'..'h').to_a
+  @@BOARD_FILE = ('1'..'8').to_a
 
   def initialize
     @chess_board = Board.new
-    set_board
+    @game_state = {
+      board: @chess_board,
+      moves: 0,
+      current_turn: 'player 1'
+    }
+  end
+
+  def play_game
+
   end
 
   def display
@@ -50,20 +58,23 @@ class ChessGame
     puts '   a b c d e f g h'
   end
 
-  # def move(start, end)
+  def move(piece_pos, new_pos)
+    piece = chess_board.find_node(convert_coor(start)).piece
+    space = chess_board.find_node(convert_coor(new_pos))
 
-  # end
 
-  def convert_coor(chess_coor)
-    coor = []
-    chess_coor = chess_coor.split('')
-    coor.push(@@board_rank.find_index(chess_coor[0]))
-    coor.push(@@board_file.find_index(chess_coor[1]))
-
-    coor
   end
 
   private
+  def convert_coor(chess_coor)
+    coor = []
+    chess_coor = chess_coor.split('')
+    coor.push(@@BOARD_RANK.find_index(chess_coor[0]))
+    coor.push(@@BOARD_FILE.find_index(chess_coor[1]))
+
+    coor
+  end
+  
   def set_board
     @chess_board.board.each do |node|
 

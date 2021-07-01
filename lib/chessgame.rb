@@ -119,6 +119,14 @@ class ChessGame
     end
   end
 
+  def save_game
+    require "yaml"
+
+    File.open("chessgame_save.yaml", "w") do |file|
+      file.write YAML::dump(@game_state)
+    end
+  end
+
   
 end
 

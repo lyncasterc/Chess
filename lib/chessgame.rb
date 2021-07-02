@@ -18,7 +18,10 @@ class ChessGame
     @chess_board = nil
     @game_state = {
       moves: 0,
-      current_turn: 'player 1'
+      current_turn: 'player 1',
+      draw: false,
+      resign: false
+
     }
   end
 
@@ -85,7 +88,11 @@ class ChessGame
     kings = chess_board.board.filter { |node| !node.piece.nil? && node.piece.class == King }
     kings.collect! { |node| node.piece }
 
+    #checking for a mate
     return true if kings.any? { |king| king.in_check?(@chess_board) && king.possible_moves(@chess_board).empty?}
+
+    #game is drawn or resigned
+    return true if @game_state[:draw] || @game_state[:resign]
 
     false
   end
@@ -165,10 +172,10 @@ class ChessGame
 end
 
 c = ChessGame.new
+
 c.set_board
 # c.display
 
-print c.game_over?
 # c.load_game
 # c.display
 

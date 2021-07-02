@@ -15,7 +15,7 @@ class GamePiece
     elsif board.is_diagonal?(start_pos, end_pos)
       path = board.get_diagonal_path(start_pos,end_pos)
     end
-
+    
     return false if path.length < 1
     return false if path.all? {|node| node.piece.nil?}
     true

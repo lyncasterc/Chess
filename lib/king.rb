@@ -27,7 +27,7 @@ class King < GamePiece
   end
 
   def in_check?(board, pos = @pos)
-    enemy_pieces = board.board.filter { |node| enemy_piece?(node.coor, board)  }
+    enemy_pieces = board.board.filter { |node| node.piece.class != King && enemy_piece?(node.coor, board) }
     
     possible_enemy_moves = enemy_pieces.collect { |node| node.piece.possible_moves(board) }
 

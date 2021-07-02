@@ -35,8 +35,6 @@ class ChessGame
 
     set_board if input == 1
     load_game if input == 2
-  
-
 
 
   end
@@ -82,6 +80,16 @@ class ChessGame
   end
 
   # private
+
+  def game_over?
+    kings = chess_board.board.filter { |node| !node.piece.nil? && node.piece.class == King }
+    kings.collect! { |node| node.piece }
+
+    return true if kings.any? { |king| king.in_check?(@chess_board) && king.possible_moves(@chess_board).empty?}
+
+    false
+  end
+
   def convert_coor(chess_coor)
     coor = []
     chess_coor = chess_coor.split('')
@@ -159,6 +167,8 @@ end
 c = ChessGame.new
 c.set_board
 # c.display
+
+print c.game_over?
 # c.load_game
 # c.display
 

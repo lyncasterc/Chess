@@ -29,6 +29,7 @@ class Pawn < GamePiece
     # can not move 2 if pawn has moved already
     # can not move 2 if piece is the way 
     if(y2 - y1).abs() == 2
+      return false if (x2 - x1).abs() > 0
       return false if @has_moved || piece_in_path?(@pos, new_pos, board)
     end
     

@@ -26,7 +26,7 @@ class ChessGame
   end
 
   def play_game
-    puts "CHESS"
+    puts "CHESS\n"
     puts "Enter 1 to start a new game or 2 to load a saved game"
 
     input = gets.chomp.to_i
@@ -38,6 +38,7 @@ class ChessGame
 
     set_board if input == 1
     load_game if input == 2
+
 
 
   end
@@ -162,21 +163,27 @@ class ChessGame
 
   def load_game
     require "yaml"
-    f = File.open("lib/chessgame_save.yaml")
-    objects = YAML::load_stream(f)
-    f.close
     
-    @game_state = objects[0]
-    @chess_board = objects[1]
+    if File.zero?("lib/chessgame_save.yaml")
+      return nil
+    else
+      f = File.open("lib/chessgame_save.yaml")
+      objects = YAML::load_stream(f)
+      f.close
+      
+      @game_state = objects[0]
+      @chess_board = objects[1]
+    end
   end
 end
 
 c = ChessGame.new
 
 c.set_board
-# c.display
+# c.play_game
+c.display
 
-# c.load_game
+c.load_game
 # c.display
 
 # node = c.chess_board.find_node([3,3])

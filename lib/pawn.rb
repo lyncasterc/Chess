@@ -44,7 +44,7 @@ class Pawn < GamePiece
   end
   private
   def set_unicode
-    @color == 'white' ? @unicode = '♗' : @unicode = '♝'
+    @color == 'white' ? @unicode = '♙' : @unicode = '♟︎'
   end
 end
 

@@ -18,6 +18,6 @@ class Bishop < GamePiece
 
   private
   def set_unicode
-    @color == 'white' ? @unicode = '♙' : @unicode = '♟︎' 
+    @color == 'white' ? @unicode = '♗' : @unicode = '♝' 
   end
 end

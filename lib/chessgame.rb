@@ -45,9 +45,6 @@ class ChessGame
       @game_state[:current_turn] = if @game_state[:current_turn] == 'white' then 'black' else 'white' end
 
     end
-
-
-
   end
 
 
@@ -66,7 +63,7 @@ class ChessGame
   end
 
   def verify_pos_input(input)
-    return convert_coor(input) if @@BOARD_RANK.include?(input[0]) && @@BOARD_FILE.include?(input[1])
+    return convert_coor(input) if @@BOARD_RANK.include?(input[0].downcase) && @@BOARD_FILE.include?(input[1])
   end
 
   def verify_player_piece(piece_pos)

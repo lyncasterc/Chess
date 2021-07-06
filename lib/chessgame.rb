@@ -18,7 +18,7 @@ class ChessGame
     @chess_board = nil
     @game_state = {
       moves: 0,
-      current_turn: 'player 1',
+      current_turn: 'white',
       draw: false,
       resign: false
 

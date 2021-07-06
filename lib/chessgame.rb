@@ -29,12 +29,7 @@ class ChessGame
     puts "CHESS\n"
     puts "Enter 1 to start a new game or 2 to load a saved game"
 
-    input = gets.chomp.to_i
-    unless (1..2).include?(input)
-      puts "Oops!"
-      puts "Enter 1 to start a new game or 2 to load a saved game"
-      input = gets.chomp.to_i
-    end
+    input = player_input(1, 2)
 
     if input == 1 || (input == 2 && load_game.nil? )
       set_board
@@ -55,7 +50,22 @@ class ChessGame
 
   end
 
-  def verify_input(input)
+
+  def verify_input(min, max, input)
+    return input if input.between?(min, max)
+  end
+
+  def player_input(min, max)
+    loop do
+      user_input = gets.chomp.to_i
+      verified_number = verify_input(min, max, user_input)
+      return verified_number if !verified_number.nil?
+
+      puts "Input error! Please enter a number between #{min} and #{max}."
+    end
+  end
+
+  def verify_pos_input(input)
     return convert_coor(input) if @@BOARD_RANK.include?(input[0]) && @@BOARD_FILE.include?(input[1])
   end
 
@@ -67,7 +77,7 @@ class ChessGame
   def player_piece_input
     loop do
       user_input = gets.chomp
-      verified_input = verify_input(user_input)
+      verified_input = verify_pos_input(user_input)
       verified_piece = verify_player_piece(verified_input)
       return verified_piece if !verified_piece.nil?
 
@@ -82,7 +92,7 @@ class ChessGame
   def player_move_input(player_piece)
     loop do
       user_input = gets.chomp
-      verified_input = verify_input(user_input)
+      verified_input = verify_pos_input(user_input)
       verified_move = verify_move_input(player_piece, verified_input)
       return verified_move if !verified_move.nil? 
 

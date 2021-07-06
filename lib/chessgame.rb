@@ -124,15 +124,47 @@ class ChessGame
     end
   end
 
-  def move(piece_pos, new_pos)
-    piece = chess_board.find_node(convert_coor(start)).piece
-    space = chess_board.find_node(convert_coor(new_pos))
+  def move(player_piece, new_pos)
+    @chess_board.find_node(new_pos).piece = player_piece
+    @chess_board.find_node(player_piece.pos).piece = nil
+    player_piece.pos = new_pos
+    player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
 
+    if player_piece.class == Pawn
+      set_take_en_passant(player_piece, new_pos)
+      player_piece.t_e_p = false if player_piece.t_e_p && take_en_passant(player_piece, new_pos).nil?
+    end
 
   end
 
-  # private
+  def set_take_en_passant(player_piece, new_pos)
+    if player_piece.class == Pawn && (new_pos[1] - player_piece.pos[1]).abs() == 2
+      adjacent_spaces = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
 
+      adjacent_spaces.each do |space|
+        if !@chess_board.off_board(space) && space.piece.class == Pawn && player_piece.enemy_piece?(space)
+          enemy_pawn = @chess_board.find_node(space).piece
+          enemy_pawn.t_e_p = true
+        end
+      end
+    end
+  end
+
+  def take_en_passant(player_piece, new_pos)
+    adjacent_spaces = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
+    adjacent_spaces.collect! { |space| @chess_board.find_node(space) }
+    enemy_pawn_node = adjacent_spaces.find { |node| node.piece.class == Pawn && player_piece.enemy_piece?(node.coor) }
+
+    if player_piece.color == 'black'
+      enemy_pawn_node.piece = nil if new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] - 1]
+      return new_pos
+    elsif player_piece.color == 'white'
+      enemy_pawn_node.piece = nil if new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] + 1]
+      return new_pos
+    end
+  end
+
+  # private
   def game_over?
     kings = chess_board.board.filter { |node| !node.piece.nil? && node.piece.class == King }
     kings.collect! { |node| node.piece }
@@ -227,11 +259,9 @@ end
 
 c = ChessGame.new
 
-c.set_board
-# c.play_game
-c.display
+c.play_game
 
-c.load_game
+# c.load_game
 # c.display
 
 # node = c.chess_board.find_node([3,3])

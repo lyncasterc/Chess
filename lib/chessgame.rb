@@ -144,7 +144,7 @@ class ChessGame
   end
 
   def set_take_en_passant(player_piece, new_pos)
-    if player_piece.class == Pawn && (new_pos[1] - player_piece.pos[1]).abs() == 2
+    if (new_pos[1] - player_piece.pos[1]).abs() == 2
       adjacent_spaces = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
 
       adjacent_spaces.each do |space|

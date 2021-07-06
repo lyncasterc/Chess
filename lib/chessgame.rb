@@ -36,11 +36,59 @@ class ChessGame
       input = gets.chomp.to_i
     end
 
-    set_board if input == 1
-    load_game if input == 2
+    if input == 1 || (input == 2 && load_game.nil? )
+      set_board
+    end
+
+    until game_over?
+      puts "Current turn: #{@game_state[:current_turn]}\n"
+      display
+      puts "Select piece to move: "
+      touched_piece = player_piece_input
+      puts "Select space to move to: "
+      new_pos = player_move_input(touched_piece)
+      move(touched_piece, new_pos)
+      @game_state[:current_turn] = if @game_state[:current_turn] == 'white' then 'black' else 'white' end
+
+    end
 
 
 
+  end
+
+  def verify_input(input)
+    return convert_coor(input) if @@BOARD_RANK.include?(input[0]) && @@BOARD_FILE.include?(input[1])
+  end
+
+  def verify_player_piece(piece_pos)
+    player_piece = @chess_board.find_node(piece_pos).piece if !piece_pos.nil?
+    return player_piece if !player_piece.nil? && player_piece.color == @game_state[:current_turn]
+  end
+  
+  def player_piece_input
+    loop do
+      user_input = gets.chomp
+      verified_input = verify_input(user_input)
+      verified_piece = verify_player_piece(verified_input)
+      return verified_piece if !verified_piece.nil?
+
+      puts "Input error! Check that your entered position is correct."
+    end
+  end
+
+  def verify_move_input(player_piece, new_pos)
+    return new_pos if player_piece.valid_move?(new_pos, @chess_board)
+  end
+
+  def player_move_input(player_piece)
+    loop do
+      user_input = gets.chomp
+      verified_input = verify_input(user_input)
+      verified_move = verify_move_input(player_piece, verified_input)
+      return verified_move if !verified_move.nil? 
+
+      puts "Input error! This move is not valid."
+    end
   end
 
   def display

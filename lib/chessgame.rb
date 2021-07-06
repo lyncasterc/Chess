@@ -41,11 +41,10 @@ class ChessGame
     end
 
     until game_over?
-      puts "Current turn: #{@game_state[:current_turn]}\n"
       display
-      puts "Select piece to move: "
+      puts "#{@game_state[:current_turn]} - Select a piece to move: \n"
       touched_piece = player_piece_input
-      puts "Select space to move to: "
+      puts "#{@game_state[:current_turn]} - Select space to move to: \n"
       new_pos = player_move_input(touched_piece)
       move(touched_piece, new_pos)
       @game_state[:current_turn] = if @game_state[:current_turn] == 'white' then 'black' else 'white' end

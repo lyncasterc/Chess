@@ -10,7 +10,7 @@ require_relative './board'
 require_relative './node'
 
 class ChessGame
-  attr_accessor :chess_board, :game_state
+  # attr_accessor :chess_board, :game_state
   @@BOARD_RANK = ('a'..'h').to_a
   @@BOARD_FILE = ('1'..'8').to_a
 
@@ -47,7 +47,7 @@ class ChessGame
     end
   end
 
-
+  private
   def verify_input(min, max, input)
     return input if input.between?(min, max)
   end
@@ -133,41 +133,13 @@ class ChessGame
   def move(player_piece, new_pos)
     @chess_board.find_node(new_pos).piece = player_piece
     @chess_board.find_node(player_piece.pos).piece = nil
-    player_piece.pos = new_pos
     player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
 
     if player_piece.class == Pawn
       set_take_en_passant(player_piece, new_pos)
       player_piece.t_e_p = false if player_piece.t_e_p && take_en_passant(player_piece, new_pos).nil?
     end
-
-  end
-
-  def set_take_en_passant(player_piece, new_pos)
-    if (new_pos[1] - player_piece.pos[1]).abs() == 2
-      adjacent_spaces = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
-
-      adjacent_spaces.each do |space|
-        if !@chess_board.off_board?(space) && space.piece.class == Pawn && player_piece.enemy_piece?(space)
-          enemy_pawn = @chess_board.find_node(space).piece
-          enemy_pawn.t_e_p = true
-        end
-      end
-    end
-  end
-
-  def take_en_passant(player_piece, new_pos)
-    adjacent_spaces = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
-    adjacent_spaces.collect! { |space| @chess_board.find_node(space) }
-    enemy_pawn_node = adjacent_spaces.find { |node| node.piece.class == Pawn && player_piece.enemy_piece?(node.coor) }
-
-    if player_piece.color == 'black'
-      enemy_pawn_node.piece = nil if new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] - 1]
-      return new_pos
-    elsif player_piece.color == 'white'
-      enemy_pawn_node.piece = nil if new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] + 1]
-      return new_pos
-    end
+    player_piece.pos = new_pos
   end
 
   def game_over?

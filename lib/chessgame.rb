@@ -47,6 +47,26 @@ class ChessGame
     end
   end
 
+  def move(player_piece, new_pos)
+    loop do 
+      if verify_move_input(player_piece, new_pos) == new_pos
+        @chess_board.find_node(new_pos).piece = player_piece
+        @chess_board.find_node(player_piece.pos).piece = nil
+        player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
+  
+        if player_piece.class == Pawn
+          player_piece.set_take_en_passant(new_pos, @chess_board)
+          player_piece.t_e_p = false if player_piece.t_e_p && player_piece.take_en_passant(new_pos, @chess_board).nil?
+        end
+  
+        player_piece.pos = new_pos
+  
+        return new_pos
+      end
+      new_pos = player_move_input
+    end
+  end
+
   private
   def verify_input(min, max, input)
     return input if input.between?(min, max)
@@ -129,25 +149,6 @@ class ChessGame
     end
   end
 
-  def move(player_piece, new_pos)
-    loop do 
-      if verify_move_input(player_piece, new_pos) == new_pos
-        @chess_board.find_node(new_pos).piece = player_piece
-        @chess_board.find_node(player_piece.pos).piece = nil
-        player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
-  
-        if player_piece.class == Pawn
-          player_piece.set_take_en_passant(new_pos, @chess_board)
-          player_piece.t_e_p = false if player_piece.t_e_p && player_piece.take_en_passant(new_pos, @chess_board).nil?
-        end
-  
-        player_piece.pos = new_pos
-  
-        return new_pos
-      end
-      new_pos = player_move_input
-    end
-  end
 
   def game_over?
     kings = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.class == King }

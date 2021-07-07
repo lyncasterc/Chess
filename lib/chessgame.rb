@@ -105,7 +105,7 @@ class ChessGame
       7.step(0,-1) do |y|
         print "#{y + 1} "
         8.times do |x|
-          node = chess_board.find_node([x,y])
+          node = @chess_board.find_node([x,y])
   
           if !node.piece.nil?
             print '|' + node.piece.unicode
@@ -148,7 +148,7 @@ class ChessGame
       adjacent_spaces = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
 
       adjacent_spaces.each do |space|
-        if !@chess_board.off_board(space) && space.piece.class == Pawn && player_piece.enemy_piece?(space)
+        if !@chess_board.off_board?(space) && space.piece.class == Pawn && player_piece.enemy_piece?(space)
           enemy_pawn = @chess_board.find_node(space).piece
           enemy_pawn.t_e_p = true
         end
@@ -170,9 +170,8 @@ class ChessGame
     end
   end
 
-  # private
   def game_over?
-    kings = chess_board.board.filter { |node| !node.piece.nil? && node.piece.class == King }
+    kings = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.class == King }
     kings.collect! { |node| node.piece }
 
     #checking for a mate

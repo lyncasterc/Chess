@@ -86,12 +86,11 @@ class ChessGame
     return new_pos if !new_pos.nil? && player_piece.valid_move?(new_pos, @chess_board)
   end
 
-  def player_move_input(player_piece)
+  def player_move_input
     loop do
       user_input = gets.chomp
       verified_input = verify_pos_input(user_input)
-      verified_move = verify_move_input(player_piece, verified_input)
-      return verified_move if !verified_move.nil? 
+      return verified_input if !verified_input.nil? 
 
       puts "Input error! This move is not valid."
     end

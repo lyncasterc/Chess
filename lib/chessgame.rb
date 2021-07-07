@@ -63,7 +63,42 @@ class ChessGame
   
         return new_pos
       end
+
+      puts "Input error! This move is not valid."
       new_pos = player_move_input
+    end
+  end
+  
+  def display
+    gray_space = '|#'
+    white_space = '|_'
+
+    if !@chess_board.nil?
+      7.step(0,-1) do |y|
+        print "#{y + 1} "
+        8.times do |x|
+          node = @chess_board.find_node([x,y])
+  
+          if !node.piece.nil?
+            print '|' + node.piece.unicode
+          elsif node.coor[1] % 2 == 0 
+            if node.coor[0] % 2 == 0
+              print gray_space
+            else
+              print white_space
+            end
+          elsif node.coor[1] % 2 != 0
+            if node.coor[0] % 2 != 0
+              print gray_space
+            else
+              print white_space
+            end  
+          end
+  
+        end
+        puts "|"
+      end
+      puts '   a b c d e f g h'
     end
   end
 
@@ -115,40 +150,6 @@ class ChessGame
       puts "Input error! This move is not valid."
     end
   end
-
-  def display
-    gray_space = '|#'
-    white_space = '|_'
-
-    if !@chess_board.nil?
-      7.step(0,-1) do |y|
-        print "#{y + 1} "
-        8.times do |x|
-          node = @chess_board.find_node([x,y])
-  
-          if !node.piece.nil?
-            print '|' + node.piece.unicode
-          elsif node.coor[1] % 2 == 0 
-            if node.coor[0] % 2 == 0
-              print gray_space
-            else
-              print white_space
-            end
-          elsif node.coor[1] % 2 != 0
-            if node.coor[0] % 2 != 0
-              print gray_space
-            else
-              print white_space
-            end  
-          end
-  
-        end
-        puts "|"
-      end
-      puts '   a b c d e f g h'
-    end
-  end
-
 
   def game_over?
     kings = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.class == King }
@@ -242,9 +243,9 @@ class ChessGame
   end
 end
 
-c = ChessGame.new
+# c = ChessGame.new
 
-c.play_game
+# c.play_game
 
 # c.load_game
 # c.display

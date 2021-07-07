@@ -42,6 +42,20 @@ class Pawn < GamePiece
 
     true
   end
+
+  def set_take_en_passant(new_pos, board)
+    if (new_pos[1] - @pos[1]).abs() == 2
+      adjacent_positions = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
+
+      adjacent_positions.each do |pos|
+        if !board.off_board?(pos) && pos.piece.class == Pawn && enemy_piece?(pos)
+          enemy_pawn = board.find_node(pos).piece
+          enemy_pawn.t_e_p = true
+        end
+      end
+    end
+  end
+  
   private
   def set_unicode
     @color == 'white' ? @unicode = '♙' : @unicode = '♟︎'

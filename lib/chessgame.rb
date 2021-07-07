@@ -131,14 +131,14 @@ class ChessGame
   end
 
   def move(player_piece, new_pos)
-    @chess_board.find_node(new_pos).piece = player_piece
     @chess_board.find_node(player_piece.pos).piece = nil
     player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
 
     if player_piece.class == Pawn
-      set_take_en_passant(player_piece, new_pos)
-      player_piece.t_e_p = false if player_piece.t_e_p && take_en_passant(player_piece, new_pos).nil?
+      player_piece.set_take_en_passant(new_pos, @chess_board)
+      player_piece.t_e_p = false if player_piece.t_e_p && player_piece.take_en_passant(new_pos, @chess_board).nil?
     end
+    
     player_piece.pos = new_pos
   end
 

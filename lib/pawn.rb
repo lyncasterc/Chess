@@ -51,7 +51,7 @@ class Pawn < GamePiece
         if !board.off_board?(pos) 
           pos_node = board.find_node(pos)
           
-          if pos_node.piece.class == Pawn && enemy_piece?(pos)
+          if pos_node.piece.class == Pawn && enemy_piece?(pos, board)
           enemy_pawn = pos_node.piece
           enemy_pawn.t_e_p = true
           end

@@ -5,7 +5,7 @@ require_relative '../lib/board'
 describe Pawn do
   let(:chess_board) { Board.new }
 
-  describe "#valid_move?" do
+  describe '#valid_move?' do
     subject(:black_pawn_move) { described_class.new([3,6],'black') }
     subject(:white_pawn_move) { described_class.new([3,1],'white') }
 
@@ -182,6 +182,38 @@ describe Pawn do
           end
         end
       end
+    end
+  end
+
+  describe '#set_take_en_passant' do
+    subject(:black_pawn_tep) { described_class.new([3,3],'black') }
+    subject(:white_pawn_tep) { described_class.new([2,1],'white') }
+
+    before do
+      chess_board.find_node([3,3]).piece = black_pawn_tep
+      chess_board.find_node([2,1]).piece = black_pawn_tep
+    end
+
+    context 'when player moves pawn up two from start' do
+      context 'if the pawn lands next to an enemy pawn' do
+        it 'sets enemy pawn t_e_p to true' do
+          new_pos = [2,3]
+
+          expect { white_pawn_tep.set_take_en_passant(new_pos, chess_board) }.to change { black_pawn_tep.t_e_p }.from(false).to(true)
+        end
+      end
+
+      it 'works when moving pawn is black' do
+        chess_board.find_node([3,6]).piece = black_pawn_tep
+        black_pawn_tep.pos = [3,6]
+
+        chess_board.find_node([2,4]).piece = white_pawn_tep
+        white_pawn_tep.pos = [2,4]
+        new_pos = [3,4]
+
+        expect { black_pawn_tep.set_take_en_passant(new_pos, chess_board) }.to change { white_pawn_tep.t_e_p }.from(false).to(true)
+      end
+      
     end
   end
 end

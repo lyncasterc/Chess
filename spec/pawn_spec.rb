@@ -201,19 +201,68 @@ describe Pawn do
 
           expect { white_pawn_tep.set_take_en_passant(new_pos, chess_board) }.to change { black_pawn_tep.t_e_p }.from(false).to(true)
         end
+
+        it 'works when moving pawn is black' do
+          chess_board.find_node([3,6]).piece = black_pawn_tep
+          black_pawn_tep.pos = [3,6]
+
+          chess_board.find_node([2,4]).piece = white_pawn_tep
+          white_pawn_tep.pos = [2,4]
+          new_pos = [3,4]
+
+          expect { black_pawn_tep.set_take_en_passant(new_pos, chess_board) }.to change { white_pawn_tep.t_e_p }.from(false).to(true)
+        end
+      end
+    end
+  end
+
+  describe '#take_en_passant' do
+    subject(:black_pawn_tep) { described_class.new([3,3],'black') }
+    subject(:white_pawn_tep) { described_class.new([2,3],'white') }
+
+    context 'when attacking black pawn takes white pawn en passant' do 
+
+      before do
+        chess_board.find_node(black_pawn_tep.pos).piece = black_pawn_tep
+        chess_board.find_node(white_pawn_tep.pos).piece = white_pawn_tep
       end
 
-      it 'works when moving pawn is black' do
-        chess_board.find_node([3,6]).piece = black_pawn_tep
-        black_pawn_tep.pos = [3,6]
+      it 'removes the white pawn from the node' do
+        new_pos = [white_pawn_tep.pos[0], white_pawn_tep.pos[1] - 1]
+        taken_pawn_node = chess_board.find_node(white_pawn_tep.pos)
 
-        chess_board.find_node([2,4]).piece = white_pawn_tep
-        white_pawn_tep.pos = [2,4]
-        new_pos = [3,4]
-
-        expect { black_pawn_tep.set_take_en_passant(new_pos, chess_board) }.to change { white_pawn_tep.t_e_p }.from(false).to(true)
+        expect { black_pawn_tep.take_en_passant(new_pos, chess_board) }.to change { taken_pawn_node.piece }.from(white_pawn_tep).to(nil)
       end
-      
+
+      it 'returns new_pos' do
+        new_pos = [white_pawn_tep.pos[0], white_pawn_tep.pos[1] - 1]
+
+        expect(black_pawn_tep.take_en_passant(new_pos, chess_board)).to eq(new_pos)
+      end
+    end
+    context 'when attacking white pawn takes black pawn en passant' do 
+
+      before do
+        black_pawn_tep.pos = [4,4]
+        white_pawn_tep.pos = [3,4]
+
+        chess_board.find_node(black_pawn_tep.pos).piece = black_pawn_tep
+        chess_board.find_node(white_pawn_tep.pos).piece = white_pawn_tep
+
+      end
+
+      it 'removes the white pawn from the node' do
+        new_pos = [black_pawn_tep.pos[0], black_pawn_tep.pos[1] + 1]
+        taken_pawn_node = chess_board.find_node(black_pawn_tep.pos)
+
+        expect { white_pawn_tep.take_en_passant(new_pos, chess_board) }.to change { taken_pawn_node.piece }.from(black_pawn_tep).to(nil)
+      end
+
+      it 'returns new_pos' do
+        new_pos = [black_pawn_tep.pos[0], black_pawn_tep.pos[1] + 1]
+
+        expect(white_pawn_tep.take_en_passant(new_pos, chess_board)).to eq(new_pos)
+      end
     end
   end
 end

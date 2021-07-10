@@ -44,7 +44,7 @@ describe ChessGame do
 
         expect{ game_move.move(player_piece, new_pos) }.to change { old_pos_node.piece }.from(player_piece).to(nil)
       end
-      
+
       context 'when the player piece is a pawn' do 
         it 'changes the has_moved instance variable to true' do
           new_pos = [2,3]
@@ -81,5 +81,7 @@ describe ChessGame do
         end
       end    
     end
+
+    
   end
 end

@@ -68,7 +68,7 @@ class ChessGame
       new_pos = player_move_input
     end
   end
-  
+
   def display
     gray_space = '|#'
     white_space = '|_'
@@ -243,9 +243,9 @@ class ChessGame
   end
 end
 
-# c = ChessGame.new
+c = ChessGame.new
 
-# c.play_game
+c.play_game
 
 # c.load_game
 # c.display

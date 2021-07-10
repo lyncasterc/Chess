@@ -62,9 +62,9 @@ class Pawn < GamePiece
   end
 
   def take_en_passant(new_pos, board)
-    adjacent_positions = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]
-    adjacent_positions.collect! { |pos| board.find_node(pos) }
-    enemy_pawn_node =  adjacent_positions.find { |node| node.piece.class == Pawn && enemy_piece?(node.coor) }
+    adjacent_positions = [[@pos[0] + 1, @pos[1]], [@pos[0] - 1, @pos[1]]]
+    adjacent_positions.collect! { |position| board.find_node(position) }
+    enemy_pawn_node =  adjacent_positions.find { |node| node.piece.class == Pawn && enemy_piece?(node.coor, board) }
 
     if @color == 'black'
       enemy_pawn_node.piece = nil if new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] - 1]

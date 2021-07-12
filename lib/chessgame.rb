@@ -56,11 +56,13 @@ class ChessGame
   
         if player_piece.class == Pawn
           player_piece.set_take_en_passant(new_pos, @chess_board)
-          player_piece.t_e_p = false if player_piece.t_e_p && player_piece.take_en_passant(new_pos, @chess_board).nil?
+          player_piece.take_en_passant(new_pos, @chess_board) if player_piece.t_e_p
         end
-  
+
+        tep_pawn = find_pawn_tep
+        tep_pawn.t_e_p = false if !tep_pawn.nil?
+
         player_piece.pos = new_pos
-  
         return new_pos
       end
 

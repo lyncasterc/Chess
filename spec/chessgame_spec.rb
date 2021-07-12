@@ -53,6 +53,20 @@ describe ChessGame do
         end
       end
 
+      context 'if a friendly pawn has t_e_p set to true' do
+        let(:friendly_pawn) { chess_board.find_node([3,1]).piece }
+
+        before do
+          friendly_pawn.t_e_p = true
+        end
+    
+        it 'sets the pawn t_e_p to false' do
+          new_pos = [2,3]
+          
+          expect { game_move.move(player_piece, new_pos) }.to change { friendly_pawn.t_e_p }.from(true).to(false)
+        end
+      end
+
       context 'when the player piece is a rook' do 
         let(:rook_player_piece) { chess_board.find_node([0,0]).piece }
 

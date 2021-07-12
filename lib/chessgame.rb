@@ -39,6 +39,12 @@ class ChessGame
       display
       puts "#{@game_state[:current_turn]} - Select a piece to move: \n"
       touched_piece = player_piece_input
+
+      puts "You have selected #{touched_piece.class} #{@@BOARD_RANK[touched_piece.pos[0]]}#{@@BOARD_FILE[touched_piece.pos[1]]}"
+      puts "Enter 1 to select a new piece or 2 to enter a move: "
+      user_input = player_input(1,2)
+      next if user_input == 1
+
       puts "#{@game_state[:current_turn]} - Select space to move to: \n"
       new_pos = player_move_input
       move(touched_piece, new_pos)
@@ -67,8 +73,19 @@ class ChessGame
       end
 
       puts "Input error! This move is not valid."
+      puts "Enter 1 to select a new piece, or 2 to try another move: "
+      user_input = player_input(1, 2)
+
+      if user_input == 1
+        puts "Select a new piece: "
+        player_piece = player_piece_input
+        puts "Enter a move:"
+      else
+        puts "Enter a new move"
+      end
       new_pos = player_move_input
     end
+
   end
 
   def display

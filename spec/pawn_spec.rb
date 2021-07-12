@@ -225,6 +225,7 @@ describe Pawn do
       before do
         chess_board.find_node(black_pawn_tep.pos).piece = black_pawn_tep
         chess_board.find_node(white_pawn_tep.pos).piece = white_pawn_tep
+        black_pawn_tep.t_e_p = true
       end
 
       it 'removes the white pawn from the node' do
@@ -239,6 +240,12 @@ describe Pawn do
 
         expect(black_pawn_tep.take_en_passant(new_pos, chess_board)).to eq(new_pos)
       end
+      
+      it 'sets the attacking pawn T_E_P to false' do
+        new_pos = [white_pawn_tep.pos[0], white_pawn_tep.pos[1] - 1]
+
+        expect{ black_pawn_tep.take_en_passant(new_pos, chess_board) }.to change { black_pawn_tep.t_e_p }.from(true).to(false)
+      end
     end
     context 'when attacking white pawn takes black pawn en passant' do 
 
@@ -248,7 +255,7 @@ describe Pawn do
 
         chess_board.find_node(black_pawn_tep.pos).piece = black_pawn_tep
         chess_board.find_node(white_pawn_tep.pos).piece = white_pawn_tep
-
+        white_pawn_tep.t_e_p = true
       end
 
       it 'removes the white pawn from the node' do
@@ -262,6 +269,12 @@ describe Pawn do
         new_pos = [black_pawn_tep.pos[0], black_pawn_tep.pos[1] + 1]
 
         expect(white_pawn_tep.take_en_passant(new_pos, chess_board)).to eq(new_pos)
+      end
+
+      it 'sets the attacking pawn T_E_P to false' do
+        new_pos = [black_pawn_tep.pos[0], black_pawn_tep.pos[1] + 1]
+
+        expect{ white_pawn_tep.take_en_passant(new_pos, chess_board) }.to change { white_pawn_tep.t_e_p }.from(true).to(false)
       end
     end
   end

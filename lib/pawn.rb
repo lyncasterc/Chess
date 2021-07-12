@@ -66,13 +66,13 @@ class Pawn < GamePiece
     adjacent_positions.collect! { |position| board.find_node(position) }
     enemy_pawn_node =  adjacent_positions.find { |node| node.piece.class == Pawn && enemy_piece?(node.coor, board) }
 
-    if @color == 'black'
-      enemy_pawn_node.piece = nil if new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] - 1]
-      return new_pos
-    elsif @color == 'white'
-      enemy_pawn_node.piece = nil if new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] + 1]
-      return new_pos
+    if @color == 'black' && new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] - 1]
+      enemy_pawn_node.piece = nil
+    elsif @color == 'white' && new_pos == [enemy_pawn_node.coor[0], enemy_pawn_node.coor[1] + 1]
+      enemy_pawn_node.piece = nil 
     end
+    @t_e_p = false
+    new_pos
   end
   
   private

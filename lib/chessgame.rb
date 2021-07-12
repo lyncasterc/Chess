@@ -106,6 +106,12 @@ class ChessGame
 
   private
 
+  def player_king_in_check?
+    king = @chess_board.board.find { |node| node.piece.class == King && node.piece.color == @game_state[:current_turn] }.piece
+
+    king.in_check?(@chess_board)
+  end
+
   def find_pawn_tep
     pawn_node = @chess_board.board.find do |node|
       node.piece.class == Pawn && node.piece.color == @game_state[:current_turn] && node.piece.t_e_p

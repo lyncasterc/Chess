@@ -154,7 +154,7 @@ class ChessGame
   end
 
   def verify_move_input(player_piece, new_pos)
-    return new_pos if !new_pos.nil? && player_piece.valid_move?(new_pos, @chess_board)
+    return new_pos if !new_pos.nil? && player_piece.valid_move?(new_pos, @chess_board) && !player_king_in_check?
   end
 
   def player_move_input

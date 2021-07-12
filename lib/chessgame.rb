@@ -105,6 +105,14 @@ class ChessGame
   end
 
   private
+
+  def find_pawn_tep
+    pawn_node = @chess_board.board.find do |node|
+      node.piece.class == Pawn && node.piece.color == @game_state[:current_turn] && node.piece.t_e_p
+    end
+    return pawn_node.piece if pawn_node
+  end
+
   def verify_input(min, max, input)
     return input if input.between?(min, max)
   end
@@ -245,9 +253,8 @@ class ChessGame
   end
 end
 
-c = ChessGame.new
-
-c.play_game
+# c = ChessGame.new
+# c.play_game
 
 # c.load_game
 # c.display

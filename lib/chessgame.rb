@@ -13,7 +13,7 @@ class ChessGame
   # attr_accessor :chess_board, :game_state
   @@BOARD_RANK = ('a'..'h').to_a
   @@BOARD_FILE = ('1'..'8').to_a
-
+  
   def initialize
     @chess_board = nil
     @game_state = {
@@ -29,9 +29,9 @@ class ChessGame
     puts "CHESS\n"
     puts "Enter 1 to start a new game or 2 to load a saved game"
 
-    input = player_input(1, 2)
+    user_input = player_input(1, 2)
 
-    if input == 1 || (input == 2 && load_game.nil? )
+    if user_input == 1 || (user_input == 2 && load_game.nil? )
       set_board
     end
 

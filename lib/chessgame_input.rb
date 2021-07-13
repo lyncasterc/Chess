@@ -1,4 +1,13 @@
+require_relative './king'
+require_relative './rook'
+require_relative './pawn'
+require_relative './bishop'
+require_relative './queen'
+require_relative './queen'
+require_relative './knight'
+require_relative './gamepiece'
 require_relative './board'
+require_relative './node'
 
 class ChessGameInput
   @@BOARD_RANK = ('a'..'h').to_a
@@ -16,30 +25,30 @@ class ChessGameInput
 
       puts "Input error! Please enter a number between #{min} and #{max}."
     end
-  end
+  end 
 
-  def verify_pos_input(input)
-    return convert_coor(input) if @@BOARD_RANK.include?(input[0].downcase) && @@BOARD_FILE.include?(input[1])
-  end
-
-  def verify_player_piece(piece_pos, current_turn)
-    player_piece = @chess_board.find_node(piece_pos).piece if !piece_pos.nil?
+  def verify_player_piece(piece_pos, current_turn, board)
+    player_piece = board.find_node(piece_pos).piece if !piece_pos.nil?
     return player_piece if !player_piece.nil? && player_piece.color == current_turn
   end
 
-  def player_piece_input
+  def player_piece_input(current_turn, board)
     loop do
       user_input = gets.chomp
       verified_input = verify_pos_input(user_input)
-      verified_piece = verify_player_piece(verified_input)
+      verified_piece = verify_player_piece(verified_input, current_turn, board)
       return verified_piece if !verified_piece.nil?
 
       puts "Input error! Check that your entered position is correct."
     end
   end
 
-  def verify_move_input(player_piece, new_pos, board)
+  def verify_move_input(new_pos, player_piece, board)
     return new_pos if !new_pos.nil? && player_piece.valid_move?(new_pos, board)
+  end
+
+  def verify_pos_input(input)
+    return convert_coor(input) if @@BOARD_RANK.include?(input[0].downcase) && @@BOARD_FILE.include?(input[1])
   end
 
   def player_move_input

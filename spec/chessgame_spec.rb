@@ -98,4 +98,39 @@ describe ChessGame do
 
     
   end
+
+  describe '#hypothetically_in_check?' do
+    context 'when a new_pos would leave a the current player king in check' do
+      let(:player_piece) { chess_board.find_node([3,0]).piece }
+
+      before do
+        game_move.send(:set_board)
+        enemy_queen = chess_board.find_node([3,7]).piece
+        chess_board.find_node([4,2]).piece = player_piece
+        player_piece.pos = [4,2]
+        chess_board.find_node([4,5]).piece = enemy_queen
+        enemy_queen.pos = [4,5]
+        chess_board.find_node([4,1]).piece = nil
+      end
+
+      it 'returns true' do
+        new_pos = [5,3]
+
+        expect(game_move.hypothetically_in_check?(new_pos, player_piece)).to be true 
+      end
+
+      it 'does not change the player_piece pos' do
+        new_pos = [5,3]
+
+        expect{ game_move.hypothetically_in_check?(new_pos, player_piece) }.not_to change { player_piece.pos }
+      end
+
+      it 'does not change the original board object' do
+        new_pos = [5,3]
+
+        expect{ game_move.hypothetically_in_check?(new_pos, player_piece) }.not_to change { chess_board }
+      end
+
+    end
+  end
 end

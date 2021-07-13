@@ -134,4 +134,50 @@ describe ChessGame do
 
     end
   end
+
+  describe '#can_promote_pawn?' do
+    context 'when the player pawn is white' do
+      let(:player_piece) { chess_board.find_node([3,1]).piece }
+
+      context 'when the new_pos is on row 7' do
+        before do
+          game_move.send(:set_board)
+          chess_board.find_node([3,7]).piece = nil
+          chess_board.find_node([3,6]).piece = nil
+
+          player_piece.pos = [3,6]
+          chess_board.find_node([3,6]).piece = player_piece
+          chess_board.find_node([3,1]).piece = nil
+        end
+
+        it 'returns true' do
+          new_pos = [3,7]
+
+          expect(game_move.can_promote_pawn?(new_pos, player_piece)).to be true
+        end
+    end
+  end
+
+    context 'when the player pawn is black' do
+      let(:player_piece) { chess_board.find_node([2,6]).piece }
+
+      context 'when the new_pos is on row 0' do
+        before do
+          game_move.send(:set_board)
+          chess_board.find_node([2,0]).piece = nil
+          chess_board.find_node([2,1]).piece = nil
+
+          player_piece.pos = [2,1]
+          chess_board.find_node([2,1]).piece = player_piece
+          chess_board.find_node([2,6]).piece = nil
+        end
+
+        it 'returns true' do
+          new_pos = [2,0]
+          
+          expect(game_move.can_promote_pawn?(new_pos, player_piece)).to be true
+        end
+      end
+    end
+  end
 end

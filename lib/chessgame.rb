@@ -134,7 +134,6 @@ class ChessGame
   end
 
   private
-
   def player_king_in_check?
     king = @chess_board.board.find { |node| node.piece.class == King && node.piece.color == @game_state[:current_turn] }.piece
 
@@ -146,55 +145,6 @@ class ChessGame
       node.piece.class == Pawn && node.piece.color == @game_state[:current_turn] && node.piece.t_e_p
     end
     return pawn_node.piece if pawn_node
-  end
-
-  def verify_input(min, max, input)
-    return input if input.between?(min, max)
-  end
-
-  def player_input(min, max)
-    loop do
-      user_input = gets.chomp.to_i
-      verified_number = verify_input(min, max, user_input)
-      return verified_number if !verified_number.nil?
-
-      puts "Input error! Please enter a number between #{min} and #{max}."
-    end
-  end
-
-  def verify_pos_input(input)
-    return convert_coor(input) if @@BOARD_RANK.include?(input[0].downcase) && @@BOARD_FILE.include?(input[1])
-  end
-
-  def verify_player_piece(piece_pos)
-    player_piece = @chess_board.find_node(piece_pos).piece if !piece_pos.nil?
-    return player_piece if !player_piece.nil? && player_piece.color == @game_state[:current_turn]
-  end
-  
-  def player_piece_input
-    loop do
-      user_input = gets.chomp
-      verified_input = verify_pos_input(user_input)
-      verified_piece = verify_player_piece(verified_input)
-      return verified_piece if !verified_piece.nil?
-
-      puts "Input error! Check that your entered position is correct."
-    end
-  end
-
-  def verify_move_input(player_piece, new_pos)
-    return new_pos if !new_pos.nil? && player_piece.valid_move?(new_pos, @chess_board) 
-    # && hypothetically_in_check?(new_pos, player_piece)
-  end
-
-  def player_move_input
-    loop do
-      user_input = gets.chomp
-      verified_input = verify_pos_input(user_input)
-      return verified_input if !verified_input.nil? 
-
-      puts "Input error! This move is not valid."
-    end
   end
 
   def game_over?
@@ -210,15 +160,6 @@ class ChessGame
     false
   end
 
-  def convert_coor(chess_coor)
-    coor = []
-    chess_coor = chess_coor.split('')
-    coor.push(@@BOARD_RANK.find_index(chess_coor[0]))
-    coor.push(@@BOARD_FILE.find_index(chess_coor[1]))
-
-    coor
-  end
-  
   def set_board
     @chess_board = Board.new
     @chess_board.board.each do |node|
@@ -289,8 +230,8 @@ class ChessGame
   end
 end
 
-# c = ChessGame.new
-# c.play_game
+c = ChessGame.new
+c.play_game
 
 
 # c.load_game

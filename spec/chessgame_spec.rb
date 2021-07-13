@@ -155,8 +155,8 @@ describe ChessGame do
 
           expect(game_move.can_promote_pawn?(new_pos, player_piece)).to be true
         end
+      end
     end
-  end
 
     context 'when the player pawn is black' do
       let(:player_piece) { chess_board.find_node([2,6]).piece }

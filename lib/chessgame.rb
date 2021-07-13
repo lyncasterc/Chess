@@ -139,27 +139,24 @@ class ChessGame
     false
   end
 
-  
-
-  private
   def promote_pawn(player_piece)
-    # tells user to select a piece to promote to,
-    #tells user to choose 1 for queen, 2 for bishop, 3 for knight, 4 for rook
-    puts "Select a piece to promote to."
+    puts "Select a piece to promote to - "
     puts "Enter 1 for queen, 2 for bishop, 3 for knight, 4 for rook: "
     user_input = @chessgame_input.player_input(1, 4)
 
     if user_input == 1
-      player_piece.class = Queen
+      player_piece = Queen.new(player_piece.pos, player_piece.color)
     elsif user_input == 2
-      player_piece.class = Bishop
+      player_piece = Bishop.new(player_piece.pos, player_piece.color)
     elsif user_input == 3
-      player_piece.class = Knight
+      player_piece = Knight.new(player_piece.pos, player_piece.color)
     elsif user_input == 4
-      player_piece.class = Rook
+      player_piece = Rook.new(player_piece.pos, player_piece.color)
     end
+    player_piece
   end
-  
+
+  private
   def player_king_in_check?
     king = @chess_board.board.find { |node| node.piece.class == King && node.piece.color == @game_state[:current_turn] }.piece
 
@@ -256,8 +253,8 @@ class ChessGame
   end
 end
 
-# c = ChessGame.new
-# c.play_game
+c = ChessGame.new
+c.play_game
 
 
 # c.load_game

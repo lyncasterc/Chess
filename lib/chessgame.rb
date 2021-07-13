@@ -121,6 +121,17 @@ class ChessGame
     end
   end
 
+  def hypothetically_in_check?(new_pos, player_piece)
+    current_pos = player_piece.pos
+    player_piece.pos = new_pos
+    @chess_board.find_node(new_pos).piece = player_piece
+    @chess_board.find_node(current_pos).piece = nil
+    result = player_king_in_check?
+    player_piece.pos = current_pos
+    
+    result
+  end
+
   private
 
   def player_king_in_check?
@@ -171,7 +182,8 @@ class ChessGame
   end
 
   def verify_move_input(player_piece, new_pos)
-    return new_pos if !new_pos.nil? && player_piece.valid_move?(new_pos, @chess_board) && !player_king_in_check?
+    return new_pos if !new_pos.nil? && player_piece.valid_move?(new_pos, @chess_board) 
+    # && hypothetically_in_check?(new_pos, player_piece)
   end
 
   def player_move_input
@@ -278,6 +290,7 @@ end
 
 # c = ChessGame.new
 # c.play_game
+
 
 # c.load_game
 # c.display

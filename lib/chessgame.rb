@@ -57,15 +57,17 @@ class ChessGame
   def move(new_pos, player_piece)
     loop do 
       if @chessgame_input.verify_move_input(new_pos, player_piece, @chess_board) == new_pos && !hypothetically_in_check?(new_pos, player_piece)
+
+        if player_piece.class == Pawn
+          player_piece.set_take_en_passant(new_pos, @chess_board)
+          player_piece.take_en_passant(new_pos, @chess_board) if player_piece.t_e_p
+          player_piece = promote_pawn(player_piece) if can_promote_pawn?(new_pos, player_piece)
+        end
+
         @chess_board.find_node(new_pos).piece = player_piece
         @chess_board.find_node(player_piece.pos).piece = nil
         player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
   
-        if player_piece.class == Pawn
-          player_piece.set_take_en_passant(new_pos, @chess_board)
-          player_piece.take_en_passant(new_pos, @chess_board) if player_piece.t_e_p
-        end
-
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false if !tep_pawn.nil?
 
@@ -264,10 +266,4 @@ c.play_game
 # node.piece = Rook.new(node.coor, 'black')
 # c.display
 # c.save_game
-
-
-
-
-
-
 

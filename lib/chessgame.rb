@@ -8,6 +8,7 @@ require_relative './knight'
 require_relative './gamepiece'
 require_relative './board'
 require_relative './node'
+require_relative './chessgame_input'
 
 class ChessGame
   # attr_accessor :chess_board, :game_state
@@ -21,15 +22,15 @@ class ChessGame
       current_turn: 'white',
       draw: false,
       resign: false
-
     }
+    @chessgame_input = ChessGameInput.new
   end
 
   def play_game
     puts "CHESS\n"
     puts "Enter 1 to start a new game or 2 to load a saved game"
 
-    user_input = player_input(1, 2)
+    user_input = @chessgame_input.player_input(1, 2)
 
     if user_input == 1 || (user_input == 2 && load_game.nil? )
       set_board
@@ -38,24 +39,24 @@ class ChessGame
     until game_over?
       display
       puts "#{@game_state[:current_turn]} - Select a piece to move: \n"
-      touched_piece = player_piece_input
+      touched_piece = @chessgame_input.player_piece_input(@game_state[:current_turn], @chess_board)
 
       puts "You have selected #{touched_piece.class} #{@@BOARD_RANK[touched_piece.pos[0]]}#{@@BOARD_FILE[touched_piece.pos[1]]}"
       puts "Enter 1 to select a new piece or 2 to enter a move: "
-      user_input = player_input(1,2)
+      user_input = @chessgame_input.player_input(1,2)
       next if user_input == 1
 
       puts "#{@game_state[:current_turn]} - Select space to move to: \n"
-      new_pos = player_move_input
-      move(touched_piece, new_pos)
+      new_pos = @chessgame_input.player_move_input
+      move(new_pos, touched_piece)
       @game_state[:current_turn] = if @game_state[:current_turn] == 'white' then 'black' else 'white' end
 
     end
   end
 
-  def move(player_piece, new_pos)
+  def move(new_pos, player_piece)
     loop do 
-      if verify_move_input(player_piece, new_pos) == new_pos
+      if @chessgame_input.verify_move_input(new_pos, player_piece, @chess_board) == new_pos && !hypothetically_in_check?(new_pos, player_piece)
         @chess_board.find_node(new_pos).piece = player_piece
         @chess_board.find_node(player_piece.pos).piece = nil
         player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
@@ -74,16 +75,16 @@ class ChessGame
 
       puts "Input error! This move is not valid."
       puts "Enter 1 to select a new piece, or 2 to try another move: "
-      user_input = player_input(1, 2)
+      user_input = @chessgame_input.player_input(1, 2)
 
       if user_input == 1
         puts "Select a new piece: "
-        player_piece = player_piece_input
+        player_piece = @chessgame_input.player_piece_input(@game_state[:current_turn], @chess_board)
         puts "Enter a move:"
       else
         puts "Enter a new move"
       end
-      new_pos = player_move_input
+      new_pos = @chessgame_input.player_move_input
     end
 
   end
@@ -128,7 +129,7 @@ class ChessGame
     @chess_board.find_node(current_pos).piece = nil
     result = player_king_in_check?
     player_piece.pos = current_pos
-    
+
     result
   end
 

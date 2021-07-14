@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require_relative './chesspiece'
 require_relative './rook'
 require_relative './board'
 
 class King < ChessPiece
   attr_reader :unicode
-  
+
   def initialize(pos = nil, color = nil, has_moved = false)
     super(pos, color, has_moved)
     @unicode = set_unicode
@@ -19,16 +21,16 @@ class King < ChessPiece
     return false if board.off_board?(new_pos)
     return false if friendly_piece?(new_pos, board)
     return false if in_check?(board, new_pos)
-    return false if (y2 - y1).abs() > 1
-    return false if (x2 - x1).abs() > 2 
-    return false if (x2 - x1).abs() == 2 && !can_castle?(board, new_pos)
-  
+    return false if (y2 - y1).abs > 1
+    return false if (x2 - x1).abs > 2
+    return false if (x2 - x1).abs == 2 && !can_castle?(board, new_pos)
+
     true
   end
 
   def in_check?(board, pos = @pos)
     enemy_pieces = board.board.filter { |node| node.piece.class != King && enemy_piece?(node.coor, board) }
-    
+
     possible_enemy_moves = enemy_pieces.collect { |node| node.piece.possible_moves(board) }
 
     possible_enemy_moves.each do |arr|
@@ -45,20 +47,21 @@ class King < ChessPiece
     castle_path = board.get_linear_path(@pos, castle_pos)
 
     if @color == 'black'
-      black_piece = board.find_node([7,7]).piece if x2 > x1 
-      black_piece = board.find_node([0,7]).piece if x2 < x1
+      black_piece = board.find_node([7, 7]).piece if x2 > x1
+      black_piece = board.find_node([0, 7]).piece if x2 < x1
 
-      castle_rook = black_piece if black_piece.class == Rook
+      castle_rook = black_piece if black_piece.instance_of?(Rook)
     else
-      white_piece = board.find_node([7,0]).piece if x2 > x1 
-      white_piece = board.find_node([0,0]).piece if x2 < x1
+      white_piece = board.find_node([7, 0]).piece if x2 > x1
+      white_piece = board.find_node([0, 0]).piece if x2 < x1
 
-      castle_rook = white_piece if white_piece.class == Rook
-    end  
+      castle_rook = white_piece if white_piece.instance_of?(Rook)
+    end
 
-    return false if !castle_rook
+    return false unless castle_rook
     return false if @has_moved || castle_rook.has_moved
     return false if in_check?(board) || in_check?(board, castle_pos)
+
     castle_path.each do |node|
       return false if in_check?(board, node.coor)
     end
@@ -68,18 +71,18 @@ class King < ChessPiece
   end
 
   private
+
   def set_unicode
-    @color == 'white' ? @unicode = '♔' : @unicode = '♚'
+    @unicode = @color == 'white' ? '♔' : '♚'
   end
-  
 end
 
 # b = Board.new
 # bk = King.new([4,7],'black')
 
-# black_rook_1 = Rook.new([7,7], 'black') 
-# black_rook_2 = Rook.new([0,7], 'black') 
-# white_rook_1 = Rook.new([7,0], 'white') 
+# black_rook_1 = Rook.new([7,7], 'black')
+# black_rook_2 = Rook.new([0,7], 'black')
+# white_rook_1 = Rook.new([7,0], 'white')
 # white_rook_2 = Rook.new([0,0], 'white')
 
 # b.board.each do |node|

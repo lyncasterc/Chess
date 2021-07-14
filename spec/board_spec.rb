@@ -41,14 +41,14 @@ describe Board do
         start_pos = [3,3]
         end_pos = [3,6]
 
-        expect(linear_board.is_linear?(start_pos, end_pos)).to be true
+        expect(linear_board.horizontal_or_vertical?(start_pos, end_pos)).to be true
       end
 
       it 'works with other horizontal or vertical paths' do
         start_pos = [3,3]
         end_pos = [7,3]
 
-        expect(linear_board.is_linear?(start_pos, end_pos)).to be true
+        expect(linear_board.horizontal_or_vertical?(start_pos, end_pos)).to be true
       end
     end
 
@@ -57,14 +57,14 @@ describe Board do
         start_pos = [3,3]
         end_pos = [4,2]
 
-        expect(linear_board.is_linear?(start_pos, end_pos)).to be false
+        expect(linear_board.horizontal_or_vertical?(start_pos, end_pos)).to be false
       end
 
       it 'works with other non-horizontal or non-vertical paths' do
         start_pos = [3,3]
         end_pos = [0,6]
 
-        expect(linear_board.is_linear?(start_pos, end_pos)).to be false
+        expect(linear_board.horizontal_or_vertical?(start_pos, end_pos)).to be false
       end
     end
   end
@@ -97,7 +97,7 @@ describe Board do
       end
     end
   end
-  describe '#is_diagonal?' do
+  describe '#diagonal?' do
     subject(:diagonal_board) { described_class.new }
 
     context 'when line formed by end and start positions is diagonal' do
@@ -105,13 +105,13 @@ describe Board do
         start_pos = [3,3]
         end_pos = [5,5]
 
-        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be true
+        expect(diagonal_board.diagonal?(start_pos, end_pos)).to be true
       end
       it 'works with other diagonal positions' do
         start_pos = [6,1]
         end_pos = [2,4]
 
-        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be true
+        expect(diagonal_board.diagonal?(start_pos, end_pos)).to be true
       end
     end
     context 'when line formed by end and start positions is not diagonal' do
@@ -119,13 +119,13 @@ describe Board do
         start_pos = [3,3]
         end_pos = [4,3]
 
-        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be false
+        expect(diagonal_board.diagonal?(start_pos, end_pos)).to be false
       end
       it 'works with other diagonal positions' do
         start_pos = [6,1]
         end_pos = [3,1]
 
-        expect(diagonal_board.is_diagonal?(start_pos, end_pos)).to be false
+        expect(diagonal_board.diagonal?(start_pos, end_pos)).to be false
       end
     end
   end

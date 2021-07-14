@@ -10,9 +10,9 @@ class GamePiece
   end
 
   def piece_in_path?(start_pos, end_pos, board)
-    if board.is_linear?(start_pos, end_pos)
+    if board.horizontal_or_vertical?(start_pos, end_pos)
       path = board.get_linear_path(start_pos, end_pos)
-    elsif board.is_diagonal?(start_pos, end_pos)
+    elsif board.diagonal?(start_pos, end_pos)
       path = board.get_diagonal_path(start_pos,end_pos)
     end
     

@@ -36,7 +36,7 @@ class Pawn < GamePiece
     #can not move horizontally if not diagonal
     #can not move diagonally by one if there is no enemy piece and can not take en passant
     if (x2 - x1).abs() == 1
-      return false if !board.is_diagonal?(@pos, new_pos)
+      return false if !board.diagonal?(@pos, new_pos)
       return false if !enemy_piece?(new_pos, board) && !@t_e_p
     end
 

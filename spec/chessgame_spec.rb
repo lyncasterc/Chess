@@ -94,10 +94,43 @@ describe ChessGame do
 
           expect { game_move.get_move(new_pos, king_player_piece ) }.to change { king_player_piece.has_moved }.from(false).to(true)
         end
+
+        
+        context 'if the player is long casting' do 
+          let(:long_castle_rook) { chess_board.find_node([0,0]).piece }
+          let(:long_castle_king) { chess_board.find_node([4,0]).piece }
+
+          before do
+            chess_board.find_node([1,0]).piece = nil
+            chess_board.find_node([2,0]).piece = nil
+            chess_board.find_node([3,0]).piece = nil
+          end
+
+          it 'moves the rook to the right of the king new_pos' do
+            new_pos = [2,0]
+
+            expect { game_move.get_move(new_pos, long_castle_king) }.to change { long_castle_rook.pos }.from([0,0]).to([new_pos[0] + 1, new_pos[1]])
+          end
+        end
+
+        context 'if the player is short casting' do
+          let(:short_castle_rook) { chess_board.find_node([7,0]).piece }
+          let(:short_castle_king) { chess_board.find_node([4,0]).piece }
+          
+          before do
+            chess_board.find_node([6,0]).piece = nil
+            chess_board.find_node([5,0]).piece = nil
+          end
+
+          it 'moves the rook to the left of the king new_pos' do
+            new_pos = [6,0]
+
+            expect { game_move.get_move(new_pos, short_castle_king) }.to change { short_castle_rook.pos }.from([7,0]).to([new_pos[0] - 1, new_pos[1]])
+          end
+          
+        end
       end    
     end
-
-    
   end
 
   describe '#hypothetically_in_check?' do

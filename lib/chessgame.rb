@@ -64,6 +64,20 @@ class ChessGame
           player_piece = promote_pawn(player_piece) if can_promote_pawn?(new_pos, player_piece)
         end
 
+        if player_piece.class == King
+            # short castling
+          if (new_pos[0] - player_piece.pos[0]).abs() == 2 && new_pos[0] > player_piece.pos[0]
+            castling_rook = @chess_board.find_node([7,0]).piece if player_piece.color == 'white'
+            castling_rook = @chess_board.find_node([7,7]).piece if player_piece.color == 'black'
+            move([new_pos[0] - 1, new_pos[1]], castling_rook)
+          elsif (new_pos[0] - player_piece.pos[0]).abs() == 2 && new_pos[0] < player_piece.pos[0]
+            # long castling
+            castling_rook = @chess_board.find_node([0,0]).piece if player_piece.color == 'white'
+            castling_rook = @chess_board.find_node([0,7]).piece if player_piece.color == 'black'
+            move([new_pos[0] + 1, new_pos[1]], castling_rook)
+          end
+        end
+
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false if !tep_pawn.nil?
         move(new_pos, player_piece)
@@ -157,7 +171,8 @@ class ChessGame
   private
 
   def move(new_pos, player_piece)
-    node = @chess_board.find_node(new_pos).piece = player_piece
+    puts new_pos.inspect
+    @chess_board.find_node(new_pos).piece = player_piece
     @chess_board.find_node(player_piece.pos).piece = nil
     player_piece.pos = new_pos
     player_piece.has_moved = true 
@@ -259,8 +274,8 @@ class ChessGame
   end
 end
 
-c = ChessGame.new
-c.play_game
+# c = ChessGame.new
+# c.play_game
 
 
 # c.load_game

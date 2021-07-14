@@ -56,6 +56,7 @@ class King < GamePiece
       castle_rook = white_piece if white_piece.class == Rook
     end  
 
+    return false if !castle_rook
     return false if @has_moved || castle_rook.has_moved
     return false if in_check?(board) || in_check?(board, castle_pos)
     castle_path.each do |node|

@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require_relative './king'
 require_relative './rook'
 require_relative './pawn'
 require_relative './bishop'
-require_relative './queen'
 require_relative './queen'
 require_relative './knight'
 require_relative './gamepiece'
 require_relative './board'
 require_relative './node'
 
+# Gets all ChessGame inputs from user
 class ChessGameInput
   @@BOARD_RANK = ('a'..'h').to_a
   @@BOARD_FILE = ('1'..'8').to_a
@@ -21,14 +23,14 @@ class ChessGameInput
     loop do
       user_input = gets.chomp.to_i
       verified_number = verify_input(min, max, user_input)
-      return verified_number if !verified_number.nil?
+      return verified_number unless verified_number.nil?
 
       puts "Input error! Please enter a number between #{min} and #{max}."
     end
-  end 
+  end
 
   def verify_player_piece(piece_pos, current_turn, board)
-    player_piece = board.find_node(piece_pos).piece if !piece_pos.nil?
+    player_piece = board.find_node(piece_pos).piece unless piece_pos.nil?
     return player_piece if !player_piece.nil? && player_piece.color == current_turn
   end
 
@@ -37,9 +39,9 @@ class ChessGameInput
       user_input = gets.chomp
       verified_input = verify_pos_input(user_input)
       verified_piece = verify_player_piece(verified_input, current_turn, board)
-      return verified_piece if !verified_piece.nil?
+      return verified_piece unless verified_piece.nil?
 
-      puts "Input error! Check that your entered position is correct."
+      puts 'Input error! Check that your entered position is correct.'
     end
   end
 
@@ -55,9 +57,9 @@ class ChessGameInput
     loop do
       user_input = gets.chomp
       verified_input = verify_pos_input(user_input)
-      return verified_input if !verified_input.nil? 
+      return verified_input unless verified_input.nil?
 
-      puts "Input error! This move is not valid."
+      puts 'Input error! This move is not valid.'
     end
   end
 

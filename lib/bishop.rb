@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require_relative './gamepiece'
 
+# Represents a Bishop on the board
 class Bishop < GamePiece
   attr_reader :unicode
 
@@ -10,14 +13,16 @@ class Bishop < GamePiece
 
   def valid_move?(new_pos, board)
     return false if board.off_board?(new_pos)
-    return false if !board.diagonal?(@pos, new_pos)
+    return false unless board.diagonal?(@pos, new_pos)
     return false if friendly_piece?(new_pos, board)
     return false if piece_in_path?(@pos, new_pos, board)
+
     true
   end
 
   private
+
   def set_unicode
-    @color == 'white' ? @unicode = '♗' : @unicode = '♝' 
+    @unicode = @color == 'white' ? '♗' : '♝'
   end
 end

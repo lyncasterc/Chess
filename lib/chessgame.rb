@@ -172,7 +172,6 @@ class ChessGame
   private
 
   def move(new_pos, player_piece)
-    puts new_pos.inspect
     @chess_board.find_node(new_pos).piece = player_piece
     @chess_board.find_node(player_piece.pos).piece = nil
     player_piece.pos = new_pos

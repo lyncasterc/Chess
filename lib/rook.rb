@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative './gamepiece'
+require_relative './chesspiece'
 
 # Represents a Rook on the board
-class Rook < GamePiece
+class Rook < ChessPiece
   attr_reader :unicode
 
   def initialize(pos = nil, color = nil, has_moved: false)

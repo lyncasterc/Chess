@@ -1,6 +1,6 @@
-require_relative './gamepiece'
+require_relative './chesspiece'
 
-class Queen < GamePiece
+class Queen < ChessPiece
   attr_reader :unicode
   def initialize(pos = nil, color = nil)
     super(pos, color)

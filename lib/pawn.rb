@@ -1,6 +1,6 @@
-require_relative './gamepiece'
+require_relative './chesspiece'
 
-class Pawn < GamePiece
+class Pawn < ChessPiece
   attr_accessor :t_e_p
   attr_reader :unicode
 

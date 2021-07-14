@@ -1,5 +1,5 @@
 require_relative '../lib/bishop'
-require_relative '../lib/gamepiece'
+require_relative '../lib/chesspiece'
 require_relative '../lib/board'
 
 describe Bishop do
@@ -17,7 +17,7 @@ describe Bishop do
     end
 
     context 'when a piece is between pos and new_pos path' do
-      let(:path_piece) { GamePiece.new([4,2]) }
+      let(:path_piece) { ChessPiece.new([4,2]) }
       it 'returns false' do
         new_pos = [6,0]
         path_node = chess_board.find_node([4,2])

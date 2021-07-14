@@ -1,8 +1,8 @@
-require_relative './gamepiece'
+require_relative './chesspiece'
 require_relative './rook'
 require_relative './board'
 
-class King < GamePiece
+class King < ChessPiece
   attr_reader :unicode
   
   def initialize(pos = nil, color = nil, has_moved = false)

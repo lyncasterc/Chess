@@ -1,6 +1,6 @@
 require_relative '../lib/king'
 require_relative '../lib/rook'
-require_relative '../lib/gamepiece'
+require_relative '../lib/chesspiece'
 require_relative '../lib/board'
 
 

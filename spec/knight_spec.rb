@@ -1,5 +1,5 @@
 require_relative '../lib/knight'
-require_relative '../lib/gamepiece'
+require_relative '../lib/chesspiece'
 require_relative '../lib/board'
 
 describe Knight do

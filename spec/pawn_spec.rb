@@ -1,5 +1,5 @@
 require_relative '../lib/pawn'
-require_relative '../lib/gamepiece'
+require_relative '../lib/chesspiece'
 require_relative '../lib/board'
 
 describe Pawn do
@@ -75,8 +75,8 @@ describe Pawn do
       end
 
       context 'if there is a piece in the way' do
-        let(:chess_piece) { GamePiece.new }
-        let(:chess_piece2) { GamePiece.new }
+        let(:chess_piece) { ChessPiece.new }
+        let(:chess_piece2) { ChessPiece.new }
         before do
           black_path_node = chess_board.find_node([3,5])
           black_path_node.piece = chess_piece
@@ -159,8 +159,8 @@ describe Pawn do
         end
 
         context 'when there is an enemy piece on the new_pos space' do
-          let(:enemy_piece) { GamePiece.new }
-          let(:enemy_piece2) { GamePiece.new }
+          let(:enemy_piece) { ChessPiece.new }
+          let(:enemy_piece2) { ChessPiece.new }
           before do
             black_new_pos_node = chess_board.find_node([4,5])
             black_new_pos_node.piece = enemy_piece

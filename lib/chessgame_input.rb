@@ -6,7 +6,7 @@ require_relative './pawn'
 require_relative './bishop'
 require_relative './queen'
 require_relative './knight'
-require_relative './gamepiece'
+require_relative './chesspiece'
 require_relative './board'
 require_relative './node'
 

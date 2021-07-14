@@ -1,7 +1,10 @@
-require_relative './chesspiece'
+# frozen_string_literal: true
 
+require_relative './chesspiece'
+# Represents a queen on the board
 class Queen < ChessPiece
   attr_reader :unicode
+
   def initialize(pos = nil, color = nil)
     super(pos, color)
     @unicode = set_unicode
@@ -12,12 +15,13 @@ class Queen < ChessPiece
     return false if !board.horizontal_or_vertical?(@pos, new_pos) && !board.diagonal?(@pos, new_pos)
     return false if friendly_piece?(new_pos, board)
     return false if piece_in_path?(@pos, new_pos, board)
+
     true
   end
+
   private
+
   def set_unicode
-    @color == 'white' ? @unicode = '♕' : @unicode = '♛'
+    @unicode = @color == 'white' ? '♕' : '♛'
   end
 end
-
-

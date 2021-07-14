@@ -4,6 +4,7 @@ require_relative './chesspiece'
 require_relative './rook'
 require_relative './board'
 
+# Represents a king on the board
 class King < ChessPiece
   attr_reader :unicode
 

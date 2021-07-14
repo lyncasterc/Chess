@@ -159,6 +159,14 @@ class ChessGame
   end
 
   private
+
+  def move(new_pos, player_piece)
+    node = @chess_board.find_node(new_pos).piece = player_piece
+    @chess_board.find_node(player_piece.pos).piece = nil
+    player_piece.pos = new_pos
+    player_piece.has_moved = true 
+  end
+
   def player_king_in_check?
     king = @chess_board.board.find { |node| node.piece.class == King && node.piece.color == @game_state[:current_turn] }.piece
 

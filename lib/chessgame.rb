@@ -168,6 +168,7 @@ class ChessGame
     player_piece
   end
 
+
   private
 
   def move(new_pos, player_piece)
@@ -189,6 +190,12 @@ class ChessGame
       node.piece.class == Pawn && node.piece.color == @game_state[:current_turn] && node.piece.t_e_p
     end
     return pawn_node.piece if pawn_node
+  end
+
+  def stalemate?
+    player_pieces = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.color == @game_state[:current_turn] }
+    player_pieces.collect! { |node| node.piece }
+    player_pieces.all? { |piece| piece.possible_moves(@chess_board).empty? }
   end
 
   def game_over?

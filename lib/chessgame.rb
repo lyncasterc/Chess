@@ -48,13 +48,13 @@ class ChessGame
 
       puts "#{@game_state[:current_turn]} - Select space to move to: \n"
       new_pos = @chessgame_input.player_move_input
-      move(new_pos, touched_piece)
+      get_move(new_pos, touched_piece)
       @game_state[:current_turn] = if @game_state[:current_turn] == 'white' then 'black' else 'white' end
 
     end
   end
 
-  def move(new_pos, player_piece)
+  def get_move(new_pos, player_piece)
     loop do 
       if @chessgame_input.verify_move_input(new_pos, player_piece, @chess_board) == new_pos && !hypothetically_in_check?(new_pos, player_piece)
 
@@ -255,8 +255,8 @@ class ChessGame
   end
 end
 
-c = ChessGame.new
-c.play_game
+# c = ChessGame.new
+# c.play_game
 
 
 # c.load_game

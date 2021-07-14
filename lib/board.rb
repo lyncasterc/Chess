@@ -132,7 +132,7 @@ class Board
 
     a.each do |y|
       a.each do |x|
-        board.push(Node.new(coor = [x, y]))
+        board.push(Node.new([x, y]))
       end
     end
     board

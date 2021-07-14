@@ -64,14 +64,10 @@ class ChessGame
           player_piece = promote_pawn(player_piece) if can_promote_pawn?(new_pos, player_piece)
         end
 
-        @chess_board.find_node(new_pos).piece = player_piece
-        @chess_board.find_node(player_piece.pos).piece = nil
-        player_piece.has_moved = true if [Rook, Pawn, King].include?(player_piece.class)
-  
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false if !tep_pawn.nil?
+        move(new_pos, player_piece)
 
-        player_piece.pos = new_pos
         return new_pos
       end
 
@@ -263,8 +259,8 @@ class ChessGame
   end
 end
 
-# c = ChessGame.new
-# c.play_game
+c = ChessGame.new
+c.play_game
 
 
 # c.load_game

@@ -215,8 +215,33 @@ describe ChessGame do
         it 'returns true' do
           new_pos = [2, 0]
 
-          expect(game_move.can_promote_pawn?(new_pos, player_piece)).to be true
+          expect(game.can_promote_pawn?(new_pos, player_piece)).to be true
         end
+      end
+    end
+  end
+
+  describe '#set_checkmate' do
+    let(:enemy_king) { enemy_king = King.new([7, 7], 'black') }
+    let(:game_state) { game_state = game.instance_variable_get(:@game_state) }  
+
+    context "when a king is in checkmate" do
+      before do
+        game_state[:current_turn] = 'black'
+        
+        player_king = King.new([7, 5], 'white')        
+        player_rook = Rook.new([4, 7], 'white')        
+        chess_board.find_node([7, 5]).piece = player_king
+        chess_board.find_node([4, 7]).piece = player_rook
+        chess_board.find_node([7, 7]).piece = enemy_king
+      end
+
+      it 'returns the mated king' do
+        expect(game.set_checkmate).to eq(enemy_king)
+      end
+
+      it 'sets the game_state mate key to the color of mated king' do
+        expect { game.set_checkmate }.to change { game_state[:mate] }.from(nil).to('black')
       end
     end
   end

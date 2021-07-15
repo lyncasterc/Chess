@@ -171,6 +171,29 @@ class ChessGame
     player_piece
   end
 
+  def set_checkmate
+    king_pieces = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.instance_of?(King) }
+    king_pieces.collect!(&:piece)
+    mated_king = king_pieces.find { |king| king.in_check?(@chess_board) }
+
+    if mated_king.possible_moves(@chess_board).all? { |node| hypothetically_in_check?(node.coor, mated_king) }
+      @game_state[:mate] = mated_king.color
+      mated_king
+    end
+  end
+
+  def set_stalemate
+    player_pieces = @chess_board.board.filter do |node|
+      !node.piece.nil? && node.piece.color == @game_state[:current_turn]
+    end
+    player_pieces.collect!(&:piece)
+
+    if player_pieces.all? { |piece| piece.possible_moves(@chess_board).empty? }
+      @game_state[:stalemate] = true
+      player_pieces
+    end
+  end
+
   private
 
   def move(new_pos, player_piece)

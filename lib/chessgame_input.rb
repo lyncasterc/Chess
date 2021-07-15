@@ -10,7 +10,7 @@ require_relative './chesspiece'
 require_relative './board'
 require_relative './node'
 
-# Gets all ChessGame inputs from user
+# Hanldes all ChessGame user inputs and verifications.
 class ChessGameInput
   @@BOARD_RANK = ('a'..'h').to_a
   @@BOARD_FILE = ('1'..'8').to_a

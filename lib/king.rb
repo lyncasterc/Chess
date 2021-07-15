@@ -21,7 +21,6 @@ class King < ChessPiece
 
     return false if board.off_board?(new_pos)
     return false if friendly_piece?(new_pos, board)
-    return false if in_check?(board, new_pos)
     return false if (y2 - y1).abs > 1
     return false if (x2 - x1).abs > 2
     return false if (x2 - x1).abs == 2 && !can_castle?(board, new_pos)
@@ -30,7 +29,7 @@ class King < ChessPiece
   end
 
   def in_check?(board, pos = @pos)
-    enemy_pieces = board.board.filter { |node| node.piece.class != King && enemy_piece?(node.coor, board) }
+    enemy_pieces = board.board.filter { |node| enemy_piece?(node.coor, board) }
 
     possible_enemy_moves = enemy_pieces.collect { |node| node.piece.possible_moves(board) }
 

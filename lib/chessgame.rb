@@ -52,7 +52,7 @@ class ChessGame
       new_pos = @chessgame_input.player_move_input
       get_move(new_pos, touched_piece)
       @game_state[:current_turn] = (@game_state[:current_turn] == 'white' ? 'black' : 'white')
-
+      puts game_over_message if game_over?
     end
   end
 

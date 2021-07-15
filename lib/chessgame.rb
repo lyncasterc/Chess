@@ -18,12 +18,14 @@ class ChessGame
   @@BOARD_FILE = ('1'..'8').to_a
 
   def initialize
-    @chess_board = nil
+    @chess_board = Board.new
     @game_state = {
       moves: 0,
       current_turn: 'white',
       draw: false,
-      resign: false
+      resign: nil,
+      mate: nil,
+      stalemate: false
     }
     @chessgame_input = ChessGameInput.new
   end

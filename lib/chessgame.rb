@@ -174,11 +174,11 @@ class ChessGame
   def set_checkmate
     king_pieces = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.instance_of?(King) }
     king_pieces.collect!(&:piece)
-    mated_king = king_pieces.find { |king| king.in_check?(@chess_board) }
+    checked_king = king_pieces.find { |king| king.in_check?(@chess_board) }
 
-    if mated_king.possible_moves(@chess_board).all? { |node| hypothetically_in_check?(node.coor, mated_king) }
-      @game_state[:mate] = mated_king.color
-      mated_king
+    if checked_king.possible_moves(@chess_board).all? { |node| hypothetically_in_check?(node.coor, checked_king) }
+      @game_state[:mate] = checked_king.color
+      checked_king
     end
   end
 

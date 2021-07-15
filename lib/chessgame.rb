@@ -195,29 +195,30 @@ class ChessGame
     return pawn_node.piece if pawn_node
   end
 
-  def stalemate?
-    player_pieces = @chess_board.board.filter do |node|
-      !node.piece.nil? && node.piece.color == @game_state[:current_turn]
-    end
-    player_pieces.collect!(&:piece)
-    player_pieces.all? { |piece| piece.possible_moves(@chess_board).empty? }
-  end
-
   def game_over?
-    kings = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.instance_of?(King) }
-    kings.collect!(&:piece)
-
-    # checking for a mate
-    return true if kings.any? { |king| king.in_check?(@chess_board) && king.possible_moves(@chess_board).empty? }
-
-    # game is drawn or resigned
-    return true if @game_state[:draw] || @game_state[:resign]
+    return true if @game_state[:draw] || !@game_state[:resign].nil? || !checkmate.nil? || !set_stalemate.nil?
 
     false
   end
 
+  def game_over_message
+    draw_message = 'Draw!'
+    resign_message = "#{@game_state[:resign]} resigns!"
+    checkmate_message = "#{@game_state[:mate]} is checkmated!"
+    stalemate_message = 'Stalemate! Game is a draw.'
+
+    if @game_state[:draw]
+      draw_message
+    elsif @game_state[:resign]
+      resign_message
+    elsif @game_state[:mate]
+      checkmate_message
+    elsif @game_state[:stalemate]
+      stalemate_message
+    end
+  end
+
   def set_board
-    @chess_board = Board.new
     @chess_board.board.each do |node|
       if node.coor == [0, 0]
         node.piece = Rook.new([0, 0], 'white')

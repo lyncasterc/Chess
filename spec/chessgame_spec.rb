@@ -66,7 +66,7 @@ describe ChessGame do
         it 'sets the pawn t_e_p to false' do
           new_pos = [2, 3]
 
-          expect { game_move.get_move(new_pos, player_piece) }.to change { friendly_pawn.t_e_p }.from(true).to(false)
+          expect { game.get_move(new_pos, player_piece) }.to change { friendly_pawn.t_e_p }.from(true).to(false)
         end
       end
 
@@ -80,9 +80,9 @@ describe ChessGame do
         it 'changes the has_moved instance variable to true' do
           new_pos = [0, 4]
 
-          expect { game_move.get_move(new_pos, rook_player_piece) }.to change {
-                                                                         rook_player_piece.has_moved
-                                                                       }.from(false).to(true)
+          expect { game.get_move(new_pos, rook_player_piece) }.to change {
+                                                                        rook_player_piece.has_moved
+                                                                      }.from(false).to(true)
         end
       end
 
@@ -96,7 +96,7 @@ describe ChessGame do
         it 'changes the has_moved instance variable to true' do
           new_pos = [4, 1]
 
-          expect { game_move.get_move(new_pos, king_player_piece) }.to change {
+          expect { game.get_move(new_pos, king_player_piece) }.to change {
                                                                          king_player_piece.has_moved
                                                                        }.from(false).to(true)
         end
@@ -114,7 +114,7 @@ describe ChessGame do
           it 'moves the rook to the right of the king new_pos' do
             new_pos = [2, 0]
 
-            expect { game_move.get_move(new_pos, long_castle_king) }.to change {
+            expect { game.get_move(new_pos, long_castle_king) }.to change {
                                                                           long_castle_rook.pos
                                                                         }.from([0, 0]).to([new_pos[0] + 1, new_pos[1]])
           end
@@ -132,7 +132,7 @@ describe ChessGame do
           it 'moves the rook to the left of the king new_pos' do
             new_pos = [6, 0]
 
-            expect { game_move.get_move(new_pos, short_castle_king) }.to change {
+            expect { game.get_move(new_pos, short_castle_king) }.to change {
                                                                            short_castle_rook.pos
                                                                          }.from([7, 0]).to([new_pos[0] - 1, new_pos[1]])
           end
@@ -146,7 +146,7 @@ describe ChessGame do
       let(:player_piece) { chess_board.find_node([3, 0]).piece }
 
       before do
-        game_move.send(:set_board)
+        game.send(:set_board)
         enemy_queen = chess_board.find_node([3, 7]).piece
         chess_board.find_node([4, 2]).piece = player_piece
         player_piece.pos = [4, 2]
@@ -158,19 +158,19 @@ describe ChessGame do
       it 'returns true' do
         new_pos = [5, 3]
 
-        expect(game_move.hypothetically_in_check?(new_pos, player_piece)).to be true
+        expect(game.hypothetically_in_check?(new_pos, player_piece)).to be true
       end
 
       it 'does not change the player_piece pos' do
         new_pos = [5, 3]
 
-        expect { game_move.hypothetically_in_check?(new_pos, player_piece) }.not_to change { player_piece.pos }
+        expect { game.hypothetically_in_check?(new_pos, player_piece) }.not_to change { player_piece.pos }
       end
 
       it 'does not change the original board object' do
         new_pos = [5, 3]
 
-        expect { game_move.hypothetically_in_check?(new_pos, player_piece) }.not_to change { chess_board }
+        expect { game.hypothetically_in_check?(new_pos, player_piece) }.not_to change { chess_board }
       end
     end
   end
@@ -181,7 +181,7 @@ describe ChessGame do
 
       context 'when the new_pos is on row 7' do
         before do
-          game_move.send(:set_board)
+          game.send(:set_board)
           chess_board.find_node([3, 7]).piece = nil
           chess_board.find_node([3, 6]).piece = nil
 
@@ -193,7 +193,7 @@ describe ChessGame do
         it 'returns true' do
           new_pos = [3, 7]
 
-          expect(game_move.can_promote_pawn?(new_pos, player_piece)).to be true
+          expect(game.can_promote_pawn?(new_pos, player_piece)).to be true
         end
       end
     end
@@ -203,7 +203,7 @@ describe ChessGame do
 
       context 'when the new_pos is on row 0' do
         before do
-          game_move.send(:set_board)
+          game.send(:set_board)
           chess_board.find_node([2, 0]).piece = nil
           chess_board.find_node([2, 1]).piece = nil
 

@@ -86,7 +86,6 @@ class ChessGame
         move(new_pos, player_piece)
         player_piece.has_moved = true
 
-
         return new_pos
       end
 
@@ -187,8 +186,11 @@ class ChessGame
     end
     player_pieces.collect!(&:piece)
 
-  
-    if player_pieces.all? { |piece| piece.possible_moves(@chess_board).all? { |node| hypothetically_in_check?(node.coor, piece) } }
+    if player_pieces.all? do |piece|
+        piece.possible_moves(@chess_board).all? do |node|
+          hypothetically_in_check?(node.coor, piece)
+        end
+    end
       @game_state[:stalemate] = true
       player_pieces
     end
@@ -312,16 +314,12 @@ end
 # chess_board = c.instance_variable_get(:@chess_board)
 # game_state = c.instance_variable_get(:@game_state)
 # game_state[:current_turn] = 'black'
-# player_king  = King.new([7, 7], 'black') 
+# player_king  = King.new([7, 7], 'black')
 # enemy_king = King.new([7, 5], 'white')
 # enemy_rook = Rook.new([6, 5], 'white')
 # chess_board.find_node([7, 5]).piece = enemy_king
 # chess_board.find_node([6, 5]).piece = enemy_rook
 # chess_board.find_node([7, 7]).piece = player_king
-
-
-
-
 
 # c.play_game
 

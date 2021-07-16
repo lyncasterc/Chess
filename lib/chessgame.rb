@@ -139,12 +139,9 @@ class ChessGame
 
   def hypothetically_in_check?(new_pos, player_piece)
     current_pos = player_piece.pos
-    player_piece.pos = new_pos
-    @chess_board.find_node(new_pos).piece = player_piece
-    @chess_board.find_node(current_pos).piece = nil
-    result = player_king_in_check?
-    player_piece.pos = current_pos
-
+    move(new_pos, player_piece)
+    result = player_piece.instance_of?(King) ? player_piece.in_check?(@chess_board) : player_king_in_check?
+    move(current_pos, player_piece)
     result
   end
 

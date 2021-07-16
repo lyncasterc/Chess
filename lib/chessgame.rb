@@ -84,6 +84,8 @@ class ChessGame
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false unless tep_pawn.nil?
         move(new_pos, player_piece)
+        player_piece.has_moved = true
+
 
         return new_pos
       end

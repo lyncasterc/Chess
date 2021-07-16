@@ -187,7 +187,8 @@ class ChessGame
     end
     player_pieces.collect!(&:piece)
 
-    if player_pieces.all? { |piece| piece.possible_moves(@chess_board).empty? }
+  
+    if player_pieces.all? { |piece| piece.possible_moves(@chess_board).all? { |node| hypothetically_in_check?(node.coor, piece) } }
       @game_state[:stalemate] = true
       player_pieces
     end

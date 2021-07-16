@@ -245,4 +245,33 @@ describe ChessGame do
       end
     end
   end
+
+  describe '#set_stalemate' do 
+    let(:game_state) { game_state = game.instance_variable_get(:@game_state) }
+    let(:player_king) { enemy_king = King.new([7, 7], 'black') }
+
+    context 'when the player has no legal moves left but is not in check' do
+      before do
+        game_state[:current_turn] = 'black'
+        
+        enemy_king = King.new([7, 5], 'white')
+        enemy_rook = Rook.new([6, 5], 'white')
+        chess_board.find_node([7, 5]).piece = enemy_king
+        chess_board.find_node([6, 5]).piece = enemy_rook
+        chess_board.find_node([7, 7]).piece = player_king
+      end
+
+      it 'change game_state stalemate key from false to true' do
+        expect { game.set_stalemate }.to change { game_state[:stalemate] }.from(false).to(true)
+      end
+
+      it 'returns an array' do
+        expect(game.set_stalemate).to be_an_instance_of(Array)
+      end
+
+      it 'returns an non-empty array' do
+        expect(game.set_stalemate).to_not be_empty
+      end
+    end 
+  end
 end

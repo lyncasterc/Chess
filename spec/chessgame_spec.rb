@@ -222,22 +222,22 @@ describe ChessGame do
   end
 
   describe '#set_checkmate' do
-    let(:enemy_king) { enemy_king = King.new([7, 7], 'black') }
+    let(:player_king) { King.new([7, 7], 'black') }
     let(:game_state) { game_state = game.instance_variable_get(:@game_state) }  
 
     context "when a king is in checkmate" do
       before do
         game_state[:current_turn] = 'black'
         
-        player_king = King.new([7, 5], 'white')        
-        player_rook = Rook.new([4, 7], 'white')        
-        chess_board.find_node([7, 5]).piece = player_king
-        chess_board.find_node([4, 7]).piece = player_rook
-        chess_board.find_node([7, 7]).piece = enemy_king
+        enemy_king = King.new([7, 5], 'white')        
+        enemy_rook = Rook.new([4, 7], 'white')        
+        chess_board.find_node([7, 5]).piece = enemy_king
+        chess_board.find_node([4, 7]).piece = enemy_rook
+        chess_board.find_node([7, 7]).piece = player_king
       end
 
       it 'returns the mated king' do
-        expect(game.set_checkmate).to eq(enemy_king)
+        expect(game.set_checkmate).to eq(player_king)
       end
 
       it 'sets the game_state mate key to the color of mated king' do

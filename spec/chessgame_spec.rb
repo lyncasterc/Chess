@@ -274,4 +274,54 @@ describe ChessGame do
       end
     end 
   end
+
+  describe '#game_over?' do
+    let (:game_state) { game.instance_variable_get(:@game_state) }
+
+    context 'when there is a stalemate' do
+      before do
+        game_state[:stalemate] = true
+      end
+
+      it 'returns true' do
+        expect(game.game_over?).to be true
+      end
+    end
+
+    context 'when there is a draw' do
+      before do
+        game_state[:stalemate] = false
+        game_state[:draw] = true
+      end
+
+      it 'returns true' do
+        expect(game.game_over?).to be true
+      end
+    end
+
+    context 'when there is a checkmate' do
+      before do
+        game_state[:stalemate] = false
+        game_state[:draw] = false
+        game_state[:mate] = 'black'
+      end
+
+      it 'returns true' do
+        expect(game.game_over?).to be true
+      end
+    end
+
+    context 'when a player resigns' do
+      before do
+        game_state[:stalemate] = false
+        game_state[:draw] = false
+        game_state[:mate] = nil
+        game_state[:resign] = 'white'
+      end
+      
+      it 'returns true' do
+        expect(game.game_over?).to be true
+      end
+    end
+  end
 end

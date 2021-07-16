@@ -173,6 +173,7 @@ class ChessGame
     king_pieces = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.instance_of?(King) }
     king_pieces.collect!(&:piece)
     checked_king = king_pieces.find { |king| king.in_check?(@chess_board) }
+    return if checked_king.nil?
 
     if checked_king.possible_moves(@chess_board).all? { |node| hypothetically_in_check?(node.coor, checked_king) }
       @game_state[:mate] = checked_king.color
@@ -196,6 +197,12 @@ class ChessGame
     end
   end
 
+  def game_over?
+    return true if @game_state[:draw] || !@game_state[:resign].nil? || !set_checkmate.nil? || !set_stalemate.nil?
+
+    false
+  end
+
   private
 
   def move(new_pos, player_piece)
@@ -217,12 +224,6 @@ class ChessGame
       node.piece.instance_of?(Pawn) && node.piece.color == @game_state[:current_turn] && node.piece.t_e_p
     end
     return pawn_node.piece if pawn_node
-  end
-
-  def game_over?
-    return true if @game_state[:draw] || !@game_state[:resign].nil? || !checkmate.nil? || !set_stalemate.nil?
-
-    false
   end
 
   def game_over_message

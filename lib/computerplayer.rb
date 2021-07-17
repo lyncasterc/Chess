@@ -1,4 +1,4 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
 require_relative './king'
 require_relative './rook'
@@ -22,14 +22,14 @@ class ComputerPlayer
   def make_move
     friendly_pieces = get_friendly_pieces
     pieces_with_moves = []
-    best_moves = []    
+    best_moves = []
 
     friendly_pieces.each do |piece|
       moves = piece.possible_moves(@chess_board).filter { |node| !hypothetically_in_check?(node.coor, piece) }
       pieces_with_moves << [piece, moves] unless moves.empty?
       spaces_with_enemies = moves.filter { |node| !node.piece.nil? && node.piece.color == 'white' }
       next if spaces_with_enemies.empty?
-      
+
       best_moves << [piece, spaces_with_enemies.max_by { |node| get_piece_value(node.piece) }]
     end
 
@@ -45,15 +45,15 @@ class ComputerPlayer
 
   def get_piece_value(piece)
     if piece.instance_of?(Pawn)
-      return 1
+      1
     elsif piece.instance_of?(Knight)
-      return 3
+      3
     elsif piece.instance_of?(Bishop)
-      return 3
+      3
     elsif piece.instance_of?(Rook)
-      return 5
+      5
     elsif piece.instance_of?(Queen)
-      return 9
+      9
     end
   end
 
@@ -78,13 +78,10 @@ class ComputerPlayer
 
   def get_friendly_pieces
     nodes = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.color == 'black' }
-    pieces = nodes.collect { |node| node.piece }
-    
-    pieces
+    nodes.collect(&:piece)
   end
 
   def get_king
     get_friendly_pieces.find { |piece| piece.instance_of?(King) }
   end
 end
-

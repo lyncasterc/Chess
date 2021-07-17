@@ -26,7 +26,7 @@ class ChessGame
       resign: nil,
       mate: nil,
       stalemate: false,
-      move_history: [],
+      move_history: []
     }
     @chessgame_input = ChessGameInput.new
   end
@@ -50,13 +50,13 @@ class ChessGame
 
       next if menu_choice == 1
       break if menu_choice == 5
-        
+
       puts "#{@game_state[:current_turn]} - Select space to move to: \n"
       new_pos = @chessgame_input.player_move_input
       get_move(new_pos, touched_piece)
       @game_state[:current_turn] = (@game_state[:current_turn] == 'white' ? 'black' : 'white')
     end
-    puts game_over_message 
+    puts game_over_message
   end
 
   def get_move(new_pos, player_piece)
@@ -197,9 +197,9 @@ class ChessGame
     player_pieces.collect!(&:piece)
 
     if player_pieces.all? do |piece|
-        piece.possible_moves(@chess_board).all? do |node|
-          hypothetically_in_check?(node.coor, piece)
-        end
+      piece.possible_moves(@chess_board).all? do |node|
+        hypothetically_in_check?(node.coor, piece)
+      end
     end
       @game_state[:stalemate] = true
       player_pieces
@@ -219,7 +219,6 @@ class ChessGame
     str_new_pos = @@BOARD_RANK[new_pos[0]] + @@BOARD_FILE[new_pos[1]]
 
     @game_state[:move_history] << "#{player_piece.color}: #{player_piece.class} #{str_old_pos} to #{str_new_pos}"
-    
   end
 
   def get_menu_choice
@@ -237,7 +236,7 @@ class ChessGame
       when 1
         return 1
       when 2
-        return 2 
+        return 2
       when 3
         save_game
         puts 'Game saved!'
@@ -246,9 +245,9 @@ class ChessGame
         unless @game_state[:move_history].empty?
           puts "\t\t\t\tMove History:\n"
           puts "\t\t\t\t----------------"
-          @game_state[:move_history].each { |move| puts "\t\t\t\t" + move }
+          @game_state[:move_history].each { |move| puts "\t\t\t\t#{move}" }
         end
-        
+
         next
       when 5
         @game_state[:resign] = @game_state[:current_turn]

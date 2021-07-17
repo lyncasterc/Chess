@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/king'
 require_relative '../lib/rook'
 require_relative '../lib/pawn'
@@ -11,7 +13,7 @@ require_relative '../lib/computerplayer'
 
 describe ComputerPlayer do
   let(:chess_board) { Board.new }
-  
+
   describe '#make_move' do
     subject(:computer_move) { ComputerPlayer.new(chess_board) }
     let(:computer_king) { King.new([4, 7], 'black') }
@@ -71,9 +73,8 @@ describe ComputerPlayer do
         context 'when the computer has two pieces that can both capture an enemy piece' do
           let(:enemy_queen) { Queen.new([6, 1], 'white') }
 
-
           before do
-            chess_board.find_node([5, 3]).piece = Knight.new([5,3], 'black')
+            chess_board.find_node([5, 3]).piece = Knight.new([5, 3], 'black')
             chess_board.find_node([6, 1]).piece = enemy_queen
           end
 
@@ -81,7 +82,7 @@ describe ComputerPlayer do
             move = computer_move.make_move
             computer_piece = move[0]
 
-            expect(computer_piece).to be_an_instance_of(Knight).and have_attributes(:pos => [5, 3], :color => 'black') 
+            expect(computer_piece).to be_an_instance_of(Knight).and have_attributes(pos: [5, 3], color: 'black')
           end
 
           it 'captures the piece with the highest relative value' do

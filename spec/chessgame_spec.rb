@@ -81,8 +81,8 @@ describe ChessGame do
           new_pos = [0, 4]
 
           expect { game.get_move(new_pos, rook_player_piece) }.to change {
-                                                                        rook_player_piece.has_moved
-                                                                      }.from(false).to(true)
+                                                                    rook_player_piece.has_moved
+                                                                  }.from(false).to(true)
         end
       end
 
@@ -97,8 +97,8 @@ describe ChessGame do
           new_pos = [4, 1]
 
           expect { game.get_move(new_pos, king_player_piece) }.to change {
-                                                                         king_player_piece.has_moved
-                                                                       }.from(false).to(true)
+                                                                    king_player_piece.has_moved
+                                                                  }.from(false).to(true)
         end
 
         context 'if the player is long casting' do
@@ -115,8 +115,8 @@ describe ChessGame do
             new_pos = [2, 0]
 
             expect { game.get_move(new_pos, long_castle_king) }.to change {
-                                                                          long_castle_rook.pos
-                                                                        }.from([0, 0]).to([new_pos[0] + 1, new_pos[1]])
+                                                                     long_castle_rook.pos
+                                                                   }.from([0, 0]).to([new_pos[0] + 1, new_pos[1]])
           end
         end
 
@@ -133,8 +133,8 @@ describe ChessGame do
             new_pos = [6, 0]
 
             expect { game.get_move(new_pos, short_castle_king) }.to change {
-                                                                           short_castle_rook.pos
-                                                                         }.from([7, 0]).to([new_pos[0] - 1, new_pos[1]])
+                                                                      short_castle_rook.pos
+                                                                    }.from([7, 0]).to([new_pos[0] - 1, new_pos[1]])
           end
         end
       end
@@ -223,14 +223,14 @@ describe ChessGame do
 
   describe '#set_checkmate' do
     let(:player_king) { King.new([7, 7], 'black') }
-    let(:game_state) { game_state = game.instance_variable_get(:@game_state) }  
+    let(:game_state) { game_state = game.instance_variable_get(:@game_state) }
 
-    context "when a king is in checkmate" do
+    context 'when a king is in checkmate' do
       before do
         game_state[:current_turn] = 'black'
-        
-        enemy_king = King.new([7, 5], 'white')        
-        enemy_rook = Rook.new([4, 7], 'white')        
+
+        enemy_king = King.new([7, 5], 'white')
+        enemy_rook = Rook.new([4, 7], 'white')
         chess_board.find_node([7, 5]).piece = enemy_king
         chess_board.find_node([4, 7]).piece = enemy_rook
         chess_board.find_node([7, 7]).piece = player_king
@@ -246,14 +246,14 @@ describe ChessGame do
     end
   end
 
-  describe '#set_stalemate' do 
+  describe '#set_stalemate' do
     let(:game_state) { game_state = game.instance_variable_get(:@game_state) }
     let(:player_king) { enemy_king = King.new([7, 7], 'black') }
 
     context 'when the player has no legal moves left but is not in check' do
       before do
         game_state[:current_turn] = 'black'
-        
+
         enemy_king = King.new([7, 5], 'white')
         enemy_rook = Rook.new([6, 5], 'white')
         chess_board.find_node([7, 5]).piece = enemy_king
@@ -272,11 +272,11 @@ describe ChessGame do
       it 'returns an non-empty array' do
         expect(game.set_stalemate).to_not be_empty
       end
-    end 
+    end
   end
 
   describe '#game_over?' do
-    let (:game_state) { game.instance_variable_get(:@game_state) }
+    let(:game_state) { game.instance_variable_get(:@game_state) }
 
     context 'when there is a stalemate' do
       before do
@@ -318,7 +318,7 @@ describe ChessGame do
         game_state[:mate] = nil
         game_state[:resign] = 'white'
       end
-      
+
       it 'returns true' do
         expect(game.game_over?).to be true
       end

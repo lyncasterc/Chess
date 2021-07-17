@@ -20,7 +20,9 @@ class ComputerPlayer
   end
 
   def make_move
-    
+    friendly_pieces = get_friendly_pieces
+
+
   end
 
   private
@@ -31,4 +33,8 @@ class ComputerPlayer
     
     pieces
   end
-end`
+
+  def get_king
+    get_friendly_pieces.find { |piece| piece.instance_of?(King) }
+  end
+end

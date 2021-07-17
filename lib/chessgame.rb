@@ -45,10 +45,28 @@ class ChessGame
       touched_piece = @chessgame_input.player_piece_input(@game_state[:current_turn], @chess_board)
 
       puts "You have selected #{touched_piece.class} #{@@BOARD_RANK[touched_piece.pos[0]]}#{@@BOARD_FILE[touched_piece.pos[1]]}"
-      puts 'Enter 1 to select a new piece or 2 to enter a move: '
-      user_input = @chessgame_input.player_input(1, 2)
-      next if user_input == 1
 
+      puts '1: Select a new piece '
+      puts '2: Enter a move '
+      puts '3: Save Game '
+      puts '4: View move history '
+      puts '5: Quit '
+
+      user_input = @chessgame_input.player_input(1, 5)
+
+      case user_input
+      when 1
+        next
+      when 3
+        save_game
+        puts 'Game saved!'
+      when 4
+        print_move_history
+      when 5
+        puts 'Quitting...'
+        exit
+      end
+        
       puts "#{@game_state[:current_turn]} - Select space to move to: \n"
       new_pos = @chessgame_input.player_move_input
       get_move(new_pos, touched_piece)

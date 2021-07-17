@@ -25,7 +25,8 @@ class ChessGame
       draw: false,
       resign: nil,
       mate: nil,
-      stalemate: false
+      stalemate: false,
+      move_history: [],
     }
     @chessgame_input = ChessGameInput.new
   end

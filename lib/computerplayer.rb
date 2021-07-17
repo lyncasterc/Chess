@@ -9,7 +9,6 @@ require_relative './knight'
 require_relative './chesspiece'
 require_relative './board'
 require_relative './node'
-require_relative './chessgame_input'
 
 # Computer chess player class
 class ComputerPlayer

@@ -40,7 +40,7 @@ class Board
     y2 = end_pos[1]
 
     begin
-      slope = (y2 - y1) / (x2 - x1)
+      slope = (y2 - y1) / (x2 - x1).to_f
     rescue StandardError
       slope = 0
     end

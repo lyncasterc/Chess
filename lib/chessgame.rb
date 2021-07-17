@@ -86,6 +86,7 @@ class ChessGame
 
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false unless tep_pawn.nil?
+        log_move(new_pos, player_piece)
         move(new_pos, player_piece)
         player_piece.has_moved = true
 
@@ -208,6 +209,14 @@ class ChessGame
 
   private
 
+  def log_move(new_pos, player_piece)
+    str_old_pos = @@BOARD_RANK[player_piece.pos[0]] + @@BOARD_FILE[player_piece.pos[1]]
+    str_new_pos = @@BOARD_RANK[new_pos[0]] + @@BOARD_FILE[new_pos[1]]
+
+    @game_state[:move_history] << "#{player_piece.color}: #{player_piece.class} #{str_old_pos} to #{str_new_pos}"
+    
+  end
+
   def get_menu_choice
     loop do
       puts '1: Select a new piece '
@@ -229,7 +238,12 @@ class ChessGame
         puts 'Game saved!'
         next
       when 4
-        print_move_history
+        unless @game_state[:move_history].empty?
+          puts "\t\t\t\tMove History:\n"
+          puts "\t\t\t\t----------------"
+          @game_state[:move_history].each { |move| puts "\t\t\t\t" + move }
+        end
+        
         next
       when 5
         @game_state[:resign] = @game_state[:current_turn]

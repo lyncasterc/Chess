@@ -46,33 +46,17 @@ class ChessGame
 
       puts "You have selected #{touched_piece.class} #{@@BOARD_RANK[touched_piece.pos[0]]}#{@@BOARD_FILE[touched_piece.pos[1]]}"
 
-      puts '1: Select a new piece '
-      puts '2: Enter a move '
-      puts '3: Save Game '
-      puts '4: View move history '
-      puts '5: Quit '
+      menu_choice = get_menu_choice
 
-      user_input = @chessgame_input.player_input(1, 5)
-
-      case user_input
-      when 1
-        next
-      when 3
-        save_game
-        puts 'Game saved!'
-      when 4
-        print_move_history
-      when 5
-        puts 'Quitting...'
-        exit
-      end
+      next if menu_choice == 1
+      break if menu_choice == 5
         
       puts "#{@game_state[:current_turn]} - Select space to move to: \n"
       new_pos = @chessgame_input.player_move_input
       get_move(new_pos, touched_piece)
       @game_state[:current_turn] = (@game_state[:current_turn] == 'white' ? 'black' : 'white')
-      puts game_over_message if game_over?
     end
+    puts game_over_message 
   end
 
   def get_move(new_pos, player_piece)
@@ -224,6 +208,39 @@ class ChessGame
 
   private
 
+  def get_menu_choice
+    loop do
+      puts '1: Select a new piece '
+      puts '2: Enter a move '
+      puts '3: Save Game '
+      puts '4: View move history '
+      puts '5: Resign Game '
+      puts '6: Quit '
+
+      user_input = @chessgame_input.player_input(1, 6)
+
+      case user_input
+      when 1
+        return 1
+      when 2
+        return 2 
+      when 3
+        save_game
+        puts 'Game saved!'
+        next
+      when 4
+        print_move_history
+        next
+      when 5
+        @game_state[:resign] = @game_state[:current_turn]
+        return 5
+      when 6
+        puts 'Quitting...'
+        exit
+      end
+    end
+  end
+
   def move(new_pos, player_piece)
     @chess_board.find_node(new_pos).piece = player_piece
     @chess_board.find_node(player_piece.pos).piece = nil
@@ -330,7 +347,7 @@ class ChessGame
   end
 end
 
-# c = ChessGame.new
+c = ChessGame.new
 # chess_board = c.instance_variable_get(:@chess_board)
 # game_state = c.instance_variable_get(:@game_state)
 # game_state[:current_turn] = 'black'
@@ -341,7 +358,7 @@ end
 # chess_board.find_node([6, 5]).piece = enemy_rook
 # chess_board.find_node([7, 7]).piece = player_king
 
-# c.play_game
+c.play_game
 
 # c.load_game
 # c.display

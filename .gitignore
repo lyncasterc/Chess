@@ -1,1 +1,3 @@
 .vscode/launch.json
+*.yaml
+lib/chessgame_save.yaml

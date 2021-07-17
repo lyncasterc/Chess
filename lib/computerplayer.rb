@@ -88,10 +88,3 @@ class ComputerPlayer
   end
 end
 
-# b = Board.new
-# b.find_node([4 ,7]).piece = King.new([4, 7], 'black')
-# b.find_node([3 ,3]).piece = Bishop.new([3, 3], 'black')
-# b.find_node([1 ,1]).piece = Pawn.new([1, 1], 'white')
-# c = ComputerPlayer.new(b)
-
-# print c.make_move

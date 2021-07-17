@@ -25,7 +25,7 @@ class ComputerPlayer
 
   private
 
-  def get_pieces
+  def get_friendly_pieces
     nodes = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.color == 'black' }
     pieces = nodes.collect { |node| node.piece }
     

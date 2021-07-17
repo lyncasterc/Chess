@@ -366,7 +366,7 @@ class ChessGame
   end
 end
 
-c = ChessGame.new
+# c = ChessGame.new
 # chess_board = c.instance_variable_get(:@chess_board)
 # game_state = c.instance_variable_get(:@game_state)
 # game_state[:current_turn] = 'black'
@@ -377,7 +377,7 @@ c = ChessGame.new
 # chess_board.find_node([6, 5]).piece = enemy_rook
 # chess_board.find_node([7, 7]).piece = player_king
 
-c.play_game
+# c.play_game
 
 # c.load_game
 # c.display

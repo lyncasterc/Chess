@@ -109,9 +109,10 @@ describe Board do
 
         expect(diagonal_board.diagonal?(start_pos, end_pos)).to be true
       end
+
       it 'works with other diagonal positions' do
         start_pos = [6, 1]
-        end_pos = [2, 4]
+        end_pos = [3, 4]
 
         expect(diagonal_board.diagonal?(start_pos, end_pos)).to be true
       end

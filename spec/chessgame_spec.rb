@@ -324,4 +324,19 @@ describe ChessGame do
       end
     end
   end
+
+  describe '#can_enemy_king_check' do
+    context 'when the enemy king could theoretically capture the player king' do
+      before do
+        @game_state = game.instance_variable_get(:@game_state)
+        @game_state[:current_turn] = 'white'
+        chess_board.find_node([7, 7]).piece = King.new([7, 7], 'white')
+        chess_board.find_node([7, 6]).piece = King.new([7, 6], 'black')
+      end
+
+      it 'returns true' do
+        expect(game.can_enemy_king_check?).to be true
+      end
+    end
+  end
 end

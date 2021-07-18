@@ -57,16 +57,40 @@ class ComputerPlayer
   end
 
   def hypothetically_in_check?(new_pos, player_piece)
+    result = false
     current_pos = player_piece.pos
     new_pos_node = @chess_board.find_node(new_pos)
     new_pos_piece = new_pos_node.piece
 
     hypothetical_move(new_pos, player_piece)
-    result = player_piece.instance_of?(King) ? player_piece.in_check?(@chess_board) : get_king.in_check?(@chess_board)
+
+    if player_piece.instance_of?(King)
+      result = true if player_piece.in_check?(@chess_board) || can_enemy_king_check?
+    else 
+      result = true if get_king.in_check?(@chess_board)
+    end
+
+    # result = player_piece.instance_of?(King) ? player_piece.in_check?(@chess_board) : get_king.in_check?(@chess_board)
+
     hypothetical_move(current_pos, player_piece)
     new_pos_node.piece = new_pos_piece
 
     result
+  end
+
+  def can_enemy_king_check?
+    friendly_king = get_king
+    enemy_king = @chess_board.board.find do |node|
+      !node.piece.nil? && node.piece.instance_of?(King) && node.piece.color == 'white'
+    end
+    return unless enemy_king
+
+    enemy_king = enemy_king.piece
+    enemy_king.possible_moves(@chess_board).each do |node|
+      return true if node.coor == friendly_king.pos
+    end
+    
+    false
   end
 
   def hypothetical_move(new_pos, player_piece)

@@ -140,47 +140,61 @@ describe Pawn do
             end
           end
 
-          context 'when pawn can take en passant' do
+          context 'when pawn can take en passant and there is pawn on above the new_pos to take' do
+
             before do
               black_pawn_move.t_e_p = true
-              white_pawn_move.t_e_p = true
+              black_pawn_move.pos = [3, 3]
+              chess_board.find_node([3, 3]).piece = black_pawn_move
+            end
+            
+            it 'returns false' do
+              new_pos = [4, 2]
+
+              expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be false
+            end
+          end
+
+          context 'when the pawn can take en passant and there is a pawn above the new_pos to take' do
+            before do
+              black_pawn_move.t_e_p = true
+              black_pawn_move.pos = [3, 3]
+              chess_board.find_node([3, 3]).piece = black_pawn_move
+              chess_board.find_node([4, 2]).piece = nil
+              chess_board.find_node([4, 3]).piece = Pawn.new([4, 3], 'white')
             end
 
             it 'returns true' do
-              new_pos = [2, 5]
+              new_pos = [4, 2]
+              chess_board.board.each do |node|
+                puts "#{node.coor}: #{node.piece.color if node.piece}"
+              end
+              expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be true
+            end
+          end
+
+          context 'when there is an enemy piece on the new_pos space' do
+            let(:enemy_piece) { ChessPiece.new }
+            let(:enemy_piece2) { ChessPiece.new }
+            before do
+              black_new_pos_node = chess_board.find_node([4, 5])
+              black_new_pos_node.piece = enemy_piece
+
+              white_new_pos_node = chess_board.find_node([2, 2])
+              white_new_pos_node.piece = enemy_piece2
+            end
+
+            it 'returns true' do
+              new_pos = [4, 5]
 
               expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be true
             end
 
             it 'works with white pawns' do
-              new_pos = [4, 2]
+              new_pos = [2, 2]
 
               expect(white_pawn_move.valid_move?(new_pos, chess_board)).to be true
             end
-          end
-        end
-
-        context 'when there is an enemy piece on the new_pos space' do
-          let(:enemy_piece) { ChessPiece.new }
-          let(:enemy_piece2) { ChessPiece.new }
-          before do
-            black_new_pos_node = chess_board.find_node([4, 5])
-            black_new_pos_node.piece = enemy_piece
-
-            white_new_pos_node = chess_board.find_node([2, 2])
-            white_new_pos_node.piece = enemy_piece2
-          end
-
-          it 'returns true' do
-            new_pos = [4, 5]
-
-            expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be true
-          end
-
-          it 'works with white pawns' do
-            new_pos = [2, 2]
-
-            expect(white_pawn_move.valid_move?(new_pos, chess_board)).to be true
           end
         end
       end

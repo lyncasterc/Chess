@@ -25,14 +25,14 @@ class Pawn < ChessPiece
     return false if y2 > y1 && @color == 'black'
     # y's can not change by more than 2
     return false if (y2 - y1).abs > 2
-    # x's can not change by more than 2
+    # x's can not change by more than 1
     return false if (x2 - x1).abs > 1
 
     # can not move 2 if pawn has moved already
     # can not move 2 if piece is the way
     if (y2 - y1).abs == 2
       return false if (x2 - x1).abs.positive?
-      return false if @has_moved || piece_in_path?(@pos, new_pos, board) || enemy_piece?(new_pos, board)
+      return false if @has_moved || piece_in_path?(@pos, new_pos, board)
     end
 
     # can not move horizontally if not diagonal
@@ -41,11 +41,15 @@ class Pawn < ChessPiece
       return false unless board.diagonal?(@pos, new_pos)
       return false if !enemy_piece?(new_pos, board) && !@t_e_p
 
+      # can only take en passant if there is an enemy pawn below or above new_pos (depending on color)
       if @t_e_p && !enemy_piece?(new_pos, board)
         return false if !enemy_piece?([new_pos[0], new_pos[1] + 1], board) && @color == 'black'
         return false if !enemy_piece?([new_pos[0], new_pos[1] - 1], board) && @color == 'white'
       end
     end
+
+    # cannot move forward if there is an enemy piece in the way 
+    return false if x2 == x1 && enemy_piece?(new_pos, board)
 
     true
   end

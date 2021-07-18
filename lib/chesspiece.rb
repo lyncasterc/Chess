@@ -13,12 +13,15 @@ class ChessPiece
   def valid_move?(new_pos, board); end
 
   def piece_in_path?(start_pos, end_pos, board)
+    path = nil
+
     if board.horizontal_or_vertical?(start_pos, end_pos)
       path = board.get_linear_path(start_pos, end_pos)
     elsif board.diagonal?(start_pos, end_pos)
       path = board.get_diagonal_path(start_pos, end_pos)
     end
-
+    
+    return if path.nil?
     return false if path.empty?
     return false if path.all? { |node| node.piece.nil? }
 

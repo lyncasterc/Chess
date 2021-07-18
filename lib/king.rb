@@ -18,20 +18,23 @@ class King < ChessPiece
     y1 = @pos[1]
     x2 = new_pos[0]
     y2 = new_pos[1]
-
+    
     return false if board.off_board?(new_pos)
     return false if friendly_piece?(new_pos, board)
     return false if (y2 - y1).abs > 1
     return false if (x2 - x1).abs > 2
     return false if (x2 - x1).abs == 2 && !can_castle?(board, new_pos)
-
+    puts "POINT 4: #{self.class}: #{@color}"
+    
     true
   end
 
   def in_check?(board, pos = @pos)
-    enemy_pieces = board.board.filter { |node| enemy_piece?(node.coor, board) }
-
+    enemy_pieces = board.board.filter { |node| enemy_piece?(node.coor, board) && !node.piece.instance_of?(King) }
+    puts "POINT 5: #{self.class}: #{@color}"
     possible_enemy_moves = enemy_pieces.collect { |node| node.piece.possible_moves(board) }
+    puts "POINT 7: #{self.class}: #{@color}"
+    
 
     possible_enemy_moves.each do |arr|
       return true if arr.any? { |node| node.coor == pos }

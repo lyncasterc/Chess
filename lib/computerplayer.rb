@@ -18,7 +18,7 @@ class ComputerPlayer
     @chess_board = chess_board
   end
 
-  def make_move
+  def generate_move
     friendly_pieces = get_friendly_pieces
     pieces_with_moves = []
     best_moves = []

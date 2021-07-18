@@ -14,7 +14,7 @@ require_relative '../lib/computerplayer'
 describe ComputerPlayer do
   let(:chess_board) { Board.new }
 
-  describe '#make_move' do
+  describe '#generate_move' do
     subject(:computer_move) { ComputerPlayer.new(chess_board) }
     let(:computer_king) { King.new([4, 7], 'black') }
 
@@ -25,23 +25,23 @@ describe ComputerPlayer do
       end
 
       it 'returns an array' do
-        expect(computer_move.make_move).to be_an_instance_of(Array)
+        expect(computer_move.generate_move).to be_an_instance_of(Array)
       end
 
       it 'returns a non-empty array' do
-        expect(computer_move.make_move).not_to be_empty
+        expect(computer_move.generate_move).not_to be_empty
       end
 
       it 'returns an array of 2 elements' do
-        expect(computer_move.make_move.size).to eq(2)
+        expect(computer_move.generate_move.size).to eq(2)
       end
 
       it 'returns a black piece as the first element' do
-        expect(computer_move.make_move.first.color).to eq('black')
+        expect(computer_move.generate_move.first.color).to eq('black')
       end
 
       it 'returns a valid move for the black piece as the second element' do
-        move = computer_move.make_move
+        move = computer_move.generate_move
         piece = move[0]
         destination = move[1].coor
 
@@ -57,7 +57,7 @@ describe ComputerPlayer do
         end
 
         it 'returns a capture move' do
-          expect(computer_move.make_move.last.coor).to eq(enemy_pawn.pos)
+          expect(computer_move.generate_move.last.coor).to eq(enemy_pawn.pos)
         end
 
         context 'when the computer has one piece that can choose between two enemy pieces to capture' do
@@ -66,7 +66,7 @@ describe ComputerPlayer do
           end
 
           it 'captures the piece with the higher relative value' do
-            expect(computer_move.make_move.last.coor).to eq(enemy_knight.pos)
+            expect(computer_move.generate_move.last.coor).to eq(enemy_knight.pos)
           end
         end
 
@@ -79,14 +79,14 @@ describe ComputerPlayer do
           end
 
           it 'returns the piece that can capture the enemy piece with highest relative value' do
-            move = computer_move.make_move
+            move = computer_move.generate_move
             computer_piece = move[0]
 
             expect(computer_piece).to be_an_instance_of(Knight).and have_attributes(pos: [5, 3], color: 'black')
           end
 
           it 'captures the piece with the highest relative value' do
-            expect(computer_move.make_move.last.coor).to eq(enemy_queen.pos)
+            expect(computer_move.generate_move.last.coor).to eq(enemy_queen.pos)
           end
         end
 
@@ -100,7 +100,7 @@ describe ComputerPlayer do
         end
 
         it 'returns a move that will not put the king in check' do
-          move = computer_move.make_move
+          move = computer_move.generate_move
           piece = move[0]
           destination = move[1].coor
       

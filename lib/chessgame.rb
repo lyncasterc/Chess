@@ -10,6 +10,7 @@ require_relative './chesspiece'
 require_relative './board'
 require_relative './node'
 require_relative './chessgame_input'
+require_relative './computerplayer'
 
 # Chess game class
 class ChessGame
@@ -19,6 +20,7 @@ class ChessGame
 
   def initialize
     @chess_board = Board.new
+    @computer = ComputerPlayer.new(@chess_board)
     @game_state = {
       moves: 0,
       current_turn: 'white',
@@ -54,7 +56,12 @@ class ChessGame
       puts "#{@game_state[:current_turn]} - Select space to move to: \n"
       new_pos = @chessgame_input.player_move_input
       get_move(new_pos, touched_piece)
-      @game_state[:current_turn] = (@game_state[:current_turn] == 'white' ? 'black' : 'white')
+
+      @game_state[:current_turn] = 'black'
+      sleep(rand(0..2.5))
+      computer_move = @computer.make_move
+      get_move(computer_move[1].coor, computer_move[0])
+      @game_state[:current_turn] = 'white'
     end
     puts game_over_message
   end
@@ -365,7 +372,7 @@ class ChessGame
   end
 end
 
-# c = ChessGame.new
+c = ChessGame.new
 # chess_board = c.instance_variable_get(:@chess_board)
 # game_state = c.instance_variable_get(:@game_state)
 # game_state[:current_turn] = 'black'
@@ -376,7 +383,7 @@ end
 # chess_board.find_node([6, 5]).piece = enemy_rook
 # chess_board.find_node([7, 7]).piece = player_king
 
-# c.play_game
+c.play_game
 
 # c.load_game
 # c.display

@@ -90,18 +90,21 @@ describe ComputerPlayer do
           end
         end
 
-        context "when the computer's king is in check" do
-          let(:enemy_rook) { Rook.new([4, 0], 'white') }
+      end
 
-          before do
-            chess_board.find_node([4, 0]).piece = enemy_rook
-          end
+      context "when the computer's king is in check" do
+        let(:enemy_rook) { Rook.new([4, 0], 'white') }
 
-          it 'returns a move that will not put the king in check' do
-            move = computer_move.make_move
+        before do
+          chess_board.find_node([4, 0]).piece = enemy_rook
+        end
 
-            expect(computer_king.in_check?(chess_board, move[1].coor)).to be false
-          end
+        it 'returns a move that will not put the king in check' do
+          move = computer_move.make_move
+          piece = move[0]
+          destination = move[1].coor
+      
+          expect(computer_move.send(:hypothetically_in_check?, destination, piece)).to be false
         end
       end
     end

@@ -32,7 +32,7 @@ class Pawn < ChessPiece
     # can not move 2 if piece is the way
     if (y2 - y1).abs == 2
       return false if (x2 - x1).abs.positive?
-      return false if @has_moved || piece_in_path?(@pos, new_pos, board)
+      return false if @has_moved || piece_in_path?(@pos, new_pos, board) || enemy_piece?(new_pos, board)
     end
 
     # can not move horizontally if not diagonal

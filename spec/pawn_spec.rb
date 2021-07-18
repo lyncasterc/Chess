@@ -166,9 +166,6 @@ describe Pawn do
 
             it 'returns true' do
               new_pos = [4, 2]
-              chess_board.board.each do |node|
-                puts "#{node.coor}: #{node.piece.color if node.piece}"
-              end
               expect(black_pawn_move.valid_move?(new_pos, chess_board)).to be true
             end
           end

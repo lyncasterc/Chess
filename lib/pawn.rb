@@ -40,10 +40,10 @@ class Pawn < ChessPiece
     if (x2 - x1).abs == 1
       return false unless board.diagonal?(@pos, new_pos)
       return false if !enemy_piece?(new_pos, board) && !@t_e_p
-      
-      if @t_e_p
-        return false if !enemy_piece?([new_pos[0], new_pos[1] - 1], board) && @color == 'black'
-        return false if !enemy_piece?([new_pos[0], new_pos[1] + 1], board) && @color == 'white'
+
+      if @t_e_p && !enemy_piece?(new_pos, board)
+        return false if !enemy_piece?([new_pos[0], new_pos[1] + 1], board) && @color == 'black'
+        return false if !enemy_piece?([new_pos[0], new_pos[1] - 1], board) && @color == 'white'
       end
     end
 

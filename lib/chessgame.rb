@@ -71,26 +71,10 @@ class ChessGame
       if @chessgame_input.verify_move_input(new_pos, player_piece,
                                             @chess_board) == new_pos && !hypothetically_in_check?(new_pos, player_piece)
 
-        if player_piece.instance_of?(Pawn)
-          player_piece.set_take_en_passant(new_pos, @chess_board)
-          player_piece.take_en_passant(new_pos, @chess_board) if player_piece.t_e_p
-          player_piece = promote_pawn(player_piece) if can_promote_pawn?(new_pos, player_piece)
-        end
-
-        if player_piece.instance_of?(King)
-          # short castling
-          if (new_pos[0] - player_piece.pos[0]).abs == 2 && new_pos[0] > player_piece.pos[0]
-            castling_rook = @chess_board.find_node([7, 0]).piece if player_piece.color == 'white'
-            castling_rook = @chess_board.find_node([7, 7]).piece if player_piece.color == 'black'
-            move([new_pos[0] - 1, new_pos[1]], castling_rook)
-          elsif (new_pos[0] - player_piece.pos[0]).abs == 2 && new_pos[0] < player_piece.pos[0]
-            # long castling
-            castling_rook = @chess_board.find_node([0, 0]).piece if player_piece.color == 'white'
-            castling_rook = @chess_board.find_node([0, 7]).piece if player_piece.color == 'black'
-            move([new_pos[0] + 1, new_pos[1]], castling_rook)
-          end
-        end
-
+        pawn_move_actions(new_pos, player_piece) if player_piece.instance_of?(Pawn)
+        king_move_actions(new_pos, player_piece) if player_piece.instance_of?(King)
+        puts "POINT 3"
+        
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false unless tep_pawn.nil?
         log_move(new_pos, player_piece)
@@ -227,7 +211,59 @@ class ChessGame
     false
   end
 
+  def can_enemy_king_check?
+    friendly_king = get_friendly_pieces.find { |piece| piece.instance_of?(King) }
+    enemy_king = @chess_board.board.find do |node|
+      !node.piece.nil? && node.piece.instance_of?(King) && node.piece.color != @game_state[:current_turn]
+    end
+    enemy_king = enemy_king.piece
+
+    enemy_king.possible_moves(@chess_board).each do |node|
+      return true if node.coor == friendly_king.pos
+    end
+    
+    false
+  end
+
   private
+
+  def make_computer_move
+    computer_move = @computer.generate_move
+    new_pos = computer_move[1].coor
+    player_piece = computer_move[0]
+
+    pawn_move_actions(new_pos, player_piece) if player_piece.instance_of?(Pawn)
+    king_move_actions(new_pos, player_piece) if player_piece.instance_of?(King)
+
+    tep_pawn = find_pawn_tep
+    tep_pawn.t_e_p = false unless tep_pawn.nil?
+    log_move(new_pos, player_piece)
+    move(new_pos, player_piece)
+    player_piece.has_moved = true
+
+    return new_pos
+  end
+
+  def king_move_actions(new_pos, player_piece)
+    # short castling
+    if (new_pos[0] - player_piece.pos[0]).abs == 2 && new_pos[0] > player_piece.pos[0]
+      castling_rook = @chess_board.find_node([7, 0]).piece if player_piece.color == 'white'
+      castling_rook = @chess_board.find_node([7, 7]).piece if player_piece.color == 'black'
+      move([new_pos[0] - 1, new_pos[1]], castling_rook)
+    elsif (new_pos[0] - player_piece.pos[0]).abs == 2 && new_pos[0] < player_piece.pos[0]
+      # long castling
+      castling_rook = @chess_board.find_node([0, 0]).piece if player_piece.color == 'white'
+      castling_rook = @chess_board.find_node([0, 7]).piece if player_piece.color == 'black'
+      move([new_pos[0] + 1, new_pos[1]], castling_rook)
+    end
+    
+  end
+
+  def pawn_move_actions(new_pos, player_piece)
+    player_piece.set_take_en_passant(new_pos, @chess_board)
+    player_piece.take_en_passant(new_pos, @chess_board) if player_piece.t_e_p
+    player_piece = promote_pawn(player_piece) if can_promote_pawn?(new_pos, player_piece)
+  end
 
   def get_friendly_pieces
     nodes = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.color == @game_state[:current_turn] }

@@ -58,11 +58,11 @@ class ChessGame
       get_move(new_pos, touched_piece)
 
       @game_state[:current_turn] = 'black'
-      sleep(rand(0..2.5))
       computer_move = @computer.make_move
       get_move(computer_move[1].coor, computer_move[0])
       @game_state[:current_turn] = 'white'
     end
+    display
     puts game_over_message
   end
 
@@ -151,7 +151,6 @@ class ChessGame
     current_pos = player_piece.pos
     new_pos_node = @chess_board.find_node(new_pos)
     new_pos_piece = new_pos_node.piece
-
     move(new_pos, player_piece)
     result = player_piece.instance_of?(King) ? player_piece.in_check?(@chess_board) : player_king_in_check?
     move(current_pos, player_piece)
@@ -168,20 +167,24 @@ class ChessGame
   end
 
   def promote_pawn(player_piece)
-    puts 'Select a piece to promote to - '
-    puts 'Enter 1 for queen, 2 for bishop, 3 for knight, 4 for rook: '
-    user_input = @chessgame_input.player_input(1, 4)
+    if @game_state[:current_turn] == 'black'
+      player_piece = [Queen, Rook, Bishop, Knight].sample.new(player_pos.pos, 'black')
+    else
+      puts 'Select a piece to promote to - '
+      puts 'Enter 1 for queen, 2 for bishop, 3 for knight, 4 for rook: '
+      user_input = @chessgame_input.player_input(1, 4)
 
-    case user_input
-    when 1
-      player_piece = Queen.new(player_piece.pos, player_piece.color)
-    when 2
-      player_piece = Bishop.new(player_piece.pos, player_piece.color)
-    when 3
-      player_piece = Knight.new(player_piece.pos, player_piece.color)
-    when 4
-      player_piece = Rook.new(player_piece.pos, player_piece.color)
-    end
+      case user_input
+      when 1
+        player_piece = Queen.new(player_piece.pos, 'white')
+      when 2
+        player_piece = Bishop.new(player_piece.pos, 'white')
+      when 3
+        player_piece = Knight.new(player_piece.pos, 'white')
+      when 4
+        player_piece = Rook.new(player_piece.pos, 'white')
+      end
+    end 
     player_piece
   end
 
@@ -191,17 +194,22 @@ class ChessGame
     checked_king = king_pieces.find { |king| king.in_check?(@chess_board) }
     return if checked_king.nil?
 
-    if checked_king.possible_moves(@chess_board).all? { |node| hypothetically_in_check?(node.coor, checked_king) }
+    pieces_with_moves = []
+
+    get_friendly_pieces.each do |piece|
+      moves = piece.possible_moves(@chess_board).filter { |node| !hypothetically_in_check?(node.coor, piece) }
+      pieces_with_moves << [piece, moves] unless moves.empty?
+    end
+
+    if pieces_with_moves.empty?
       @game_state[:mate] = checked_king.color
       checked_king
     end
+
   end
 
   def set_stalemate
-    player_pieces = @chess_board.board.filter do |node|
-      !node.piece.nil? && node.piece.color == @game_state[:current_turn]
-    end
-    player_pieces.collect!(&:piece)
+    player_pieces = get_friendly_pieces
 
     if player_pieces.all? do |piece|
       piece.possible_moves(@chess_board).all? do |node|
@@ -220,6 +228,11 @@ class ChessGame
   end
 
   private
+
+  def get_friendly_pieces
+    nodes = @chess_board.board.filter { |node| !node.piece.nil? && node.piece.color == @game_state[:current_turn] }
+    nodes.collect(&:piece)
+  end
 
   def log_move(new_pos, player_piece)
     str_old_pos = @@BOARD_RANK[player_piece.pos[0]] + @@BOARD_FILE[player_piece.pos[1]]
@@ -252,7 +265,7 @@ class ChessGame
         unless @game_state[:move_history].empty?
           puts "\t\t\t\tMove History:\n"
           puts "\t\t\t\t----------------"
-          @game_state[:move_history].each { |move| puts "\t\t\t\t#{move}" }
+          @game_state[:move_history].reverse_each { |move| puts "\t\t\t\t#{move}" }
         end
 
         next
@@ -372,7 +385,7 @@ class ChessGame
   end
 end
 
-c = ChessGame.new
+# c = ChessGame.new
 # chess_board = c.instance_variable_get(:@chess_board)
 # game_state = c.instance_variable_get(:@game_state)
 # game_state[:current_turn] = 'black'
@@ -383,7 +396,7 @@ c = ChessGame.new
 # chess_board.find_node([6, 5]).piece = enemy_rook
 # chess_board.find_node([7, 7]).piece = player_king
 
-c.play_game
+# c.play_game
 
 # c.load_game
 # c.display

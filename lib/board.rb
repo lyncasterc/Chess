@@ -50,7 +50,7 @@ class Board
     false
   end
 
-  def get_linear_path(start_pos, end_pos)
+  def get_hori_vert_path(start_pos, end_pos)
     path = []
     x1 = start_pos[0]
     y1 = start_pos[1]

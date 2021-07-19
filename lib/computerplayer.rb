@@ -108,3 +108,11 @@ class ComputerPlayer
     get_friendly_pieces.find { |piece| piece.instance_of?(King) }
   end
 end
+# b = Board.new
+# b.find_node([4,7]).piece = King.new([4,7], 'black')
+# b.find_node([1,6]).piece = Pawn.new([1,6], 'black')
+# b.find_node([4,0]).piece = King.new([4,0], 'white')
+# c = ComputerPlayer.new(b)
+# 400.times do
+#   print c.generate_move.inspect + "\n"
+# end

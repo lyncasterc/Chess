@@ -14,7 +14,6 @@ require_relative './computerplayer'
 
 # Chess game class
 class ChessGame
-  # attr_accessor :chess_board, :game_state
   @@BOARD_RANK = ('a'..'h').to_a
   @@BOARD_FILE = ('1'..'8').to_a
 
@@ -49,17 +48,16 @@ class ChessGame
       puts "You have selected #{touched_piece.class} #{@@BOARD_RANK[touched_piece.pos[0]]}#{@@BOARD_FILE[touched_piece.pos[1]]}"
 
       menu_choice = get_menu_choice
-
       next if menu_choice == 1
       break if menu_choice == 5
 
-      puts "#{@game_state[:current_turn]} - Select space to move to: \n"
+      puts "#{@game_state[:current_turn]} - Select space to move to: \n\n"
       new_pos = @chessgame_input.player_move_input
       get_move(new_pos, touched_piece)
 
+
       @game_state[:current_turn] = 'black'
-      computer_move = @computer.make_move
-      get_move(computer_move[1].coor, computer_move[0])
+      make_computer_move
       @game_state[:current_turn] = 'white'
     end
     display
@@ -73,7 +71,6 @@ class ChessGame
 
         pawn_move_actions(new_pos, player_piece) if player_piece.instance_of?(Pawn)
         king_move_actions(new_pos, player_piece) if player_piece.instance_of?(King)
-        puts "POINT 3"
         
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false unless tep_pawn.nil?
@@ -137,7 +134,6 @@ class ChessGame
     new_pos_node = @chess_board.find_node(new_pos)
     new_pos_piece = new_pos_node.piece
     move(new_pos, player_piece)
-    puts "POINT 8"
 
     if player_piece.instance_of?(King)
       result = true if player_piece.in_check?(@chess_board) || can_enemy_king_check?
@@ -429,7 +425,7 @@ class ChessGame
   end
 end
 
-# c = ChessGame.new
+c = ChessGame.new
 # chess_board = c.instance_variable_get(:@chess_board)
 # game_state = c.instance_variable_get(:@game_state)
 # game_state[:current_turn] = 'black'
@@ -440,7 +436,7 @@ end
 # chess_board.find_node([6, 5]).piece = enemy_rook
 # chess_board.find_node([7, 7]).piece = player_king
 
-# c.play_game
+c.play_game
 
 # c.load_game
 # c.display

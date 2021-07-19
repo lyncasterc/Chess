@@ -70,14 +70,14 @@ describe Board do
       end
     end
   end
-  describe '#get_linear_path' do
+  describe '#get_hori_vert_path' do
     subject(:linear_board) { described_class.new }
 
     context 'when passed two positions that are horizontal or vertical' do
       it 'returns a non-empty array' do
         start_pos = [3, 3]
         end_pos = [7, 3]
-        result = linear_board.get_linear_path(start_pos, end_pos)
+        result = linear_board.get_hori_vert_path(start_pos, end_pos)
 
         expect(result).to_not be_empty
       end
@@ -85,7 +85,7 @@ describe Board do
       it 'returns array only with nodes between but not equal to start_pos and end_pos' do
         start_pos = [3, 3]
         end_pos = [7, 3]
-        result = linear_board.get_linear_path(start_pos, end_pos)
+        result = linear_board.get_hori_vert_path(start_pos, end_pos)
 
         expect(result.any? { |node| node.coor == start_pos || node.coor == end_pos }).to be false
       end
@@ -93,7 +93,7 @@ describe Board do
       it 'returns array of the expected length' do
         start_pos = [3, 3]
         end_pos = [3, 0]
-        result = linear_board.get_linear_path(start_pos, end_pos)
+        result = linear_board.get_hori_vert_path(start_pos, end_pos)
 
         expect(result.length).to eq(2)
       end

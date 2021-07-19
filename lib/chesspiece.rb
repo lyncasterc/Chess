@@ -16,7 +16,7 @@ class ChessPiece
     path = nil
 
     if board.horizontal_or_vertical?(start_pos, end_pos)
-      path = board.get_linear_path(start_pos, end_pos)
+      path = board.get_hori_vert_path(start_pos, end_pos)
     elsif board.diagonal?(start_pos, end_pos)
       path = board.get_diagonal_path(start_pos, end_pos)
     end
@@ -42,7 +42,7 @@ class ChessPiece
     false
   end
 
-  def possible_moves(board)
+  def possible_moves(board)    
     board.board.filter { |node| valid_move?(node.coor, board) && node.coor != @pos }
   end
 end

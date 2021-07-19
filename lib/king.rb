@@ -24,17 +24,13 @@ class King < ChessPiece
     return false if (y2 - y1).abs > 1
     return false if (x2 - x1).abs > 2
     return false if (x2 - x1).abs == 2 && !can_castle?(board, new_pos)
-    puts "POINT 4: #{self.class}: #{@color}"
     
     true
   end
 
   def in_check?(board, pos = @pos)
     enemy_pieces = board.board.filter { |node| enemy_piece?(node.coor, board) && !node.piece.instance_of?(King) }
-    puts "POINT 5: #{self.class}: #{@color}"
-    possible_enemy_moves = enemy_pieces.collect { |node| node.piece.possible_moves(board) }
-    puts "POINT 7: #{self.class}: #{@color}"
-    
+    possible_enemy_moves = enemy_pieces.collect { |node| node.piece.possible_moves(board) }    
 
     possible_enemy_moves.each do |arr|
       return true if arr.any? { |node| node.coor == pos }
@@ -47,7 +43,7 @@ class King < ChessPiece
     x1 = @pos[0]
     x2 = castle_pos[0]
     castle_rook = nil
-    castle_path = board.get_linear_path(@pos, castle_pos)
+    castle_path = board.get_hori_vert_path(@pos, castle_pos)
 
     if @color == 'black'
       black_piece = board.find_node([7, 7]).piece if x2 > x1
@@ -64,7 +60,7 @@ class King < ChessPiece
     return false unless castle_rook
     return false if @has_moved || castle_rook.has_moved
     return false if in_check?(board) || in_check?(board, castle_pos)
-
+    
     castle_path.each do |node|
       return false if in_check?(board, node.coor)
     end
@@ -79,25 +75,3 @@ class King < ChessPiece
     @unicode = @color == 'white' ? '♔' : '♚'
   end
 end
-
-# b = Board.new
-# bk = King.new([4,7],'black')
-
-# black_rook_1 = Rook.new([7,7], 'black')
-# black_rook_2 = Rook.new([0,7], 'black')
-# white_rook_1 = Rook.new([7,0], 'white')
-# white_rook_2 = Rook.new([0,0], 'white')
-
-# b.board.each do |node|
-#   if node.coor == [0,0]
-#     node.piece = white_rook_2
-#   elsif node.coor == [7,0]
-#     node.piece = white_rook_1
-#   elsif node.coor == [0,7]
-#     node.piece = black_rook_2
-#   elsif node.coor == [7,7]
-#     node.piece = black_rook_1
-#   end
-# end
-
-# print bk.can_castle?(b, [6,7])

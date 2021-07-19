@@ -70,14 +70,13 @@ class ComputerPlayer
       result = true if get_king.in_check?(@chess_board)
     end
 
-    # result = player_piece.instance_of?(King) ? player_piece.in_check?(@chess_board) : get_king.in_check?(@chess_board)
-
     hypothetical_move(current_pos, player_piece)
     new_pos_node.piece = new_pos_piece
 
     result
   end
 
+  # returns true if the enemy king could check the player king
   def can_enemy_king_check?
     friendly_king = get_king
     enemy_king = @chess_board.board.find do |node|
@@ -108,11 +107,3 @@ class ComputerPlayer
     get_friendly_pieces.find { |piece| piece.instance_of?(King) }
   end
 end
-# b = Board.new
-# b.find_node([4,7]).piece = King.new([4,7], 'black')
-# b.find_node([1,6]).piece = Pawn.new([1,6], 'black')
-# b.find_node([4,0]).piece = King.new([4,0], 'white')
-# c = ComputerPlayer.new(b)
-# 400.times do
-#   print c.generate_move.inspect + "\n"
-# end

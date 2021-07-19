@@ -63,6 +63,8 @@ class ChessGameInput
     end
   end
 
+  #converts a chessboard string position to the equivalent internal numerical coordinate
+  # convert_coor('a1') #=> [0, 0]
   def convert_coor(chess_coor)
     coor = []
     chess_coor = chess_coor.split('')

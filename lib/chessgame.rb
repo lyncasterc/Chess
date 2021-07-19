@@ -334,6 +334,7 @@ class ChessGame
     king.in_check?(@chess_board)
   end
 
+  # returns the player's pawn whose t_e_p is true
   def find_pawn_tep
     pawn_node = @chess_board.board.find do |node|
       node.piece.instance_of?(Pawn) && node.piece.color == @game_state[:current_turn] && node.piece.t_e_p
@@ -425,24 +426,3 @@ class ChessGame
     end
   end
 end
-
-c = ChessGame.new
-# chess_board = c.instance_variable_get(:@chess_board)
-# game_state = c.instance_variable_get(:@game_state)
-# game_state[:current_turn] = 'black'
-# player_king  = King.new([7, 7], 'black')
-# enemy_king = King.new([7, 5], 'white')
-# enemy_rook = Rook.new([6, 5], 'white')
-# chess_board.find_node([7, 5]).piece = enemy_king
-# chess_board.find_node([6, 5]).piece = enemy_rook
-# chess_board.find_node([7, 7]).piece = player_king
-
-c.play_game
-
-# c.load_game
-# c.display
-
-# node = c.chess_board.find_node([3,3])
-# node.piece = Rook.new(node.coor, 'black')
-# c.display
-# c.save_game

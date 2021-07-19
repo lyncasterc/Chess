@@ -70,7 +70,7 @@ class ChessGame
                                             @chess_board) == new_pos && !hypothetically_in_check?(new_pos, player_piece)
 
         pawn_move_actions(new_pos, player_piece) if player_piece.instance_of?(Pawn)
-        king_move_actions(new_pos, player_piece) if player_piece.instance_of?(King)
+        castle(new_pos, player_piece) if player_piece.instance_of?(King)
         
         tep_pawn = find_pawn_tep
         tep_pawn.t_e_p = false unless tep_pawn.nil?
@@ -215,6 +215,7 @@ class ChessGame
     false
   end
 
+  # returns true if the enemy king could check the player king
   def can_enemy_king_check?
     friendly_king = get_friendly_pieces.find { |piece| piece.instance_of?(King) }
     enemy_king = @chess_board.board.find do |node|
@@ -237,7 +238,7 @@ class ChessGame
     player_piece = computer_move[0]
 
     pawn_move_actions(new_pos, player_piece) if player_piece.instance_of?(Pawn)
-    king_move_actions(new_pos, player_piece) if player_piece.instance_of?(King)
+    castle(new_pos, player_piece) if player_piece.instance_of?(King)
 
     tep_pawn = find_pawn_tep
     tep_pawn.t_e_p = false unless tep_pawn.nil?
@@ -248,7 +249,7 @@ class ChessGame
     return new_pos
   end
 
-  def king_move_actions(new_pos, player_piece)
+  def castle(new_pos, player_piece)
     # short castling
     if (new_pos[0] - player_piece.pos[0]).abs == 2 && new_pos[0] > player_piece.pos[0]
       castling_rook = @chess_board.find_node([7, 0]).piece if player_piece.color == 'white'

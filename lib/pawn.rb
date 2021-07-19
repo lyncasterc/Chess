@@ -54,6 +54,8 @@ class Pawn < ChessPiece
     true
   end
 
+  # sets the enemy pawn's t_e_p attribute to true
+  # when pawn moves up by two and land nexts to an enemy pawn, 
   def set_take_en_passant(new_pos, board)
     if (new_pos[1] - @pos[1]).abs == 2
       adjacent_positions = [[new_pos[0] + 1, new_pos[1]], [new_pos[0] - 1, new_pos[1]]]

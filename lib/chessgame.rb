@@ -264,6 +264,7 @@ class ChessGame
     
   end
 
+  # handles t_e_p triggering, taking en passant, and pawn promotion
   def pawn_move_actions(new_pos, player_piece)
     player_piece.set_take_en_passant(new_pos, @chess_board)
     player_piece.take_en_passant(new_pos, @chess_board) if player_piece.t_e_p
